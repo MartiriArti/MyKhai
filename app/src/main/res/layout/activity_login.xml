@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="tonydarko.mykhai.LoginActivity">
+
+    <ImageView
+        android:paddingBottom="10dp"
+        android:background="@color/colorPrimary"
+        android:id="@+id/logo"
+        android:layout_gravity=""
+        android:src="@mipmap/logo"
+        android:layout_width="match_parent"
+        android:layout_height="160dp" />
+
+    <TextView
+        android:text="Знання, якi пiдкорюють небо"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="22sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_marginTop="100dp"
+        android:id="@+id/login"
+        android:hint="Введите логин"
+        android:textColor="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/password"
+        android:textColor="@color/colorPrimary"
+        android:hint="Введите пароль"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_marginTop="50dp"
+        android:background="@android:color/white"
+        android:textColor="@color/colorPrimary"
+        android:text="Войти"
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>
