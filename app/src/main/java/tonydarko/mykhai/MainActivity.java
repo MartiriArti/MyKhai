@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                     intent.putExtra("URL", urls.get(position));
-                    System.out.println(urls.get(position));
+                    System.out.println("PutExtra " + urls.get(position));
                    startActivity(intent);
                 }
             });
