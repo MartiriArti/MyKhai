@@ -47,23 +47,20 @@ public class ExtraBallTableActivity extends AppCompatActivity {
 
         try {
             final HashMap<String, String> hashMap = parseTable.get();
-
-            info.setText(newTableFinal[0][0]);
-
+            info.setText(newTableFinal[0][0]);//info message
             for (int i = 2; i < newTableFinal.length; i++) {
                 data.add(new ExtraBallItem(
-                        newTableFinal[i][1],
-                        newTableFinal[i][2],
-                        newTableFinal[i][3],
-                        newTableFinal[i][4],
-                        newTableFinal[i][6]));
+                        newTableFinal[i][1],//group
+                        newTableFinal[i][2],//Last Name
+                        newTableFinal[i][3],//First Name
+                        newTableFinal[i][4],//otch
+                        newTableFinal[i][6]));//ball
             }
-
             lv.setAdapter(new ExtraBallAdapter(this, data));
-
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
+
     }
 
     public class ParseTable extends AsyncTask<String, Void, HashMap<String, String>> {
@@ -71,19 +68,15 @@ public class ExtraBallTableActivity extends AppCompatActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... arg) {
-
             Document doc;
             try {
                 doc = Jsoup.connect(url).get();
                 title = doc.select("tr");
-
                 int t = 0;
                 newTableFinal = new String[title.size()][];
                 for (Element titles : title) {
                     hashMap.put(titles.text(), titles.attr("td"));
-
                     Elements trs = titles.select("tr");
-
                     for (int i = 0; i < trs.size(); i++) {
                         Elements tds = trs.get(i).select("td");
                         newTableFinal[t] = new String[tds.size()];
@@ -96,9 +89,7 @@ public class ExtraBallTableActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             return hashMap;
         }
-
     }
 }

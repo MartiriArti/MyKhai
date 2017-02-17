@@ -9,6 +9,7 @@
     tools:context="tonydarko.mykhai.LoginActivity">
 
     <ImageView
+        android:contentDescription="@string/app_name"
         android:paddingBottom="10dp"
         android:background="@color/colorPrimary"
         android:id="@+id/logo"
@@ -28,8 +29,8 @@
         android:layout_height="wrap_content" />
 
     <EditText
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:layout_marginTop="100dp"
@@ -40,8 +41,8 @@
         android:layout_height="wrap_content" />
 
     <EditText
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:layout_marginTop="20dp"
@@ -53,8 +54,8 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="50dp"
         android:background="@android:color/white"
         android:textColor="@color/colorPrimary"

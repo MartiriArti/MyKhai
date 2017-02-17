@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import org.jsoup.Jsoup;
@@ -37,27 +38,23 @@ public class SchedulerActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setTitle("Розклад занять за вибором");
         lv = (ListView) findViewById(R.id.listViewScheduler);
+
         Intent intent = getIntent();
         url = intent.getStringExtra("URL");
-
         ParseTable parseTable = new ParseTable();
+
         parseTable.execute();
+
         try {
             final HashMap<String, String> hashMap = parseTable.get();
-//[Шелепова Маргарита Олександрівна,
-// 116,
-// Етика ділового спілкування ,
-// ЛЕКЦІЯ,
-// вівторок, 1 пара, 427 гк,
-// Широка Світлана Іванівна]
             for (int i = 1; i < newTableFinal.length; i++) {
                 data.add(new SchedulerItem(
-                        newTableFinal[i][0],
-                        newTableFinal[i][1],
-                        newTableFinal[i][2],
-                        newTableFinal[i][3],
-                        newTableFinal[i][4],
-                        newTableFinal[i][5]));
+                        newTableFinal[i][0],//fio
+                        newTableFinal[i][1],//group
+                        newTableFinal[i][2],//para
+                        newTableFinal[i][3],//type
+                        newTableFinal[i][4],//date
+                        newTableFinal[i][5]));//fio_prepod
             }
 
             lv.setAdapter(new SchedulerAdapter(this, data));
@@ -67,25 +64,19 @@ public class SchedulerActivity extends AppCompatActivity {
         }
     }
 
-
     public class ParseTable extends AsyncTask<String, Void, HashMap<String, String>> {
         HashMap<String, String> hashMap = new LinkedHashMap<>();
-
         @Override
         protected HashMap<String, String> doInBackground(String... arg) {
-
             Document doc;
             try {
                 doc = Jsoup.connect(url).get();
                 title = doc.select("tr");
-
                 int t = 0;
                 newTableFinal = new String[title.size()][];
                 for (Element titles : title) {
                     hashMap.put(titles.text(), titles.attr("td"));
-
                     Elements trs = titles.select("tr");
-
                     for (int i = 0; i < trs.size(); i++) {
                         Elements tds = trs.get(i).select("td");
                         newTableFinal[t] = new String[tds.size()+1];
@@ -100,11 +91,9 @@ public class SchedulerActivity extends AppCompatActivity {
                     }
                     t++;
                 }
-                System.out.println(Arrays.deepToString(newTableFinal));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             return hashMap;
         }
 
