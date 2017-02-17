@@ -1,7 +1,7 @@
-package tonydarko.mykhai;
+package tonydarko.mykhai.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +10,16 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import tonydarko.mykhai.Items.ExtraBallItem;
+import tonydarko.mykhai.R;
 
-public class Adapter extends BaseAdapter {
 
-    ArrayList<Item> data = new ArrayList<Item>();
+public class ExtraBallAdapter extends BaseAdapter {
+
+    ArrayList<ExtraBallItem> data = new ArrayList<ExtraBallItem>();
     Context context;
 
-    public Adapter( Context context, ArrayList<Item> data) {
+    public ExtraBallAdapter(Context context, ArrayList<ExtraBallItem> data) {
         this.data = data;
         this.context = context;
     }
@@ -43,16 +46,20 @@ public class Adapter extends BaseAdapter {
         //Если someView (View из ListView) вдруг оказался равен
         //null тогда мы загружаем его с помошью inflater
         if (view == null) {
-            view = inflater.inflate(R.layout.item, viewGroup, false);
+            view = inflater.inflate(R.layout.extra_ball_item, viewGroup, false);
         }
         //Обявляем наши текствьюшки и связываем их с разметкой
         TextView group = (TextView) view.findViewById(R.id.group);
-        TextView fio = (TextView) view.findViewById(R.id.fio);
+        TextView lN = (TextView) view.findViewById(R.id.last_name);
+        TextView fN = (TextView) view.findViewById(R.id.first_name);
+        TextView otch = (TextView) view.findViewById(R.id.otchistvo);
         TextView ball = (TextView) view.findViewById(R.id.ball);
 
         //Устанавливаем в каждую текствьюшку соответствующий текст
        group.setText(data.get(i).group);
-       fio.setText(data.get(i).fio);
+       lN.setText(data.get(i).lastName);
+       fN.setText(data.get(i).firstName);
+       otch.setText(data.get(i).otchistvo);
        ball.setText(data.get(i).ball);
 
 

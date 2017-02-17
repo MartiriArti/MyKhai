@@ -18,12 +18,15 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.concurrent.ExecutionException;
 
-public class TableActivity extends AppCompatActivity {
+import tonydarko.mykhai.Adapters.ExtraBallAdapter;
+import tonydarko.mykhai.Items.ExtraBallItem;
+
+public class ExtraBallTableActivity extends AppCompatActivity {
 
     String url;
     public Elements title;
     private ListView lv;
-    ArrayList<Item> data = new ArrayList<Item>();
+    ArrayList<ExtraBallItem> data = new ArrayList<ExtraBallItem>();
     String[][] newTableFinal;
     TextView info;
 
@@ -51,12 +54,13 @@ public class TableActivity extends AppCompatActivity {
             // arrayList.remove(0);
 
             for (int i = 2; i < newTableFinal.length; i++) {
-                data.add(new Item(newTableFinal[i][1],
-                        newTableFinal[i][2] + " " + newTableFinal[i][3] + " " + newTableFinal[i][4]
+                data.add(new ExtraBallItem(
+                        newTableFinal[i][1],
+                        newTableFinal[i][2],newTableFinal[i][3],newTableFinal[i][4]
                         , newTableFinal[i][6]));
             }
 
-            lv.setAdapter(new Adapter(this, data));
+            lv.setAdapter(new ExtraBallAdapter(this, data));
 
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();

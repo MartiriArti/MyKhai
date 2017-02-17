@@ -54,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
                 arrayList.add(entry.getKey().toString());
             }
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1, arrayList);
+                    R.layout.main_item, R.id.tv_main_item, arrayList);
 
             lv.setAdapter(arrayAdapter);
-            final Intent intent = new Intent(this,TableActivity.class);
+            final Intent intent = new Intent(this,ExtraBallTableActivity.class);
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
