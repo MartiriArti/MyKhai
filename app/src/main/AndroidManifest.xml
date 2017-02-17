@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".ExtraBallTableActivity"></activity>
+        <activity android:name=".ExtraBallTableActivity" />
+        <activity android:name=".SchedulerActivity"></activity>
     </application>
 
 </manifest>

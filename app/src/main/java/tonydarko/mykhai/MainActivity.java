@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,13 +24,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     public Elements title;
-    private ArrayAdapter<String> adapter;
     private ArrayList<String> urls;
     private ListView lv;
-    private TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,21 +52,48 @@ public class MainActivity extends AppCompatActivity {
             for (Map.Entry entry : hashMap.entrySet()) {
                 arrayList.add(entry.getKey().toString());
             }
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
                     R.layout.main_item, R.id.tv_main_item, arrayList);
 
             lv.setAdapter(arrayAdapter);
-            final Intent intent = new Intent(this,ExtraBallTableActivity.class);
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    intent.putExtra("URL", urls.get(position));
-                    System.out.println("PutExtra " + urls.get(position));
-                   startActivity(intent);
-                }
-            });
+            lv.setOnItemClickListener(this);
+
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+        Intent intent;
+        switch (pos){
+            case 0:
+                Toast.makeText(this,"Еще в разработке!",Toast.LENGTH_SHORT).show();
+                break;
+            case 1:
+                intent = new Intent(this, ExtraBallTableActivity.class);
+                intent.putExtra("URL", urls.get(pos));
+                System.out.println("PutExtra " + urls.get(pos));
+                startActivity(intent);
+                break;
+            case 2:
+                Toast.makeText(this,"Еще в разработке!",Toast.LENGTH_SHORT).show();
+                break;
+            case 3:
+                Toast.makeText(this,"Еще в разработке!",Toast.LENGTH_SHORT).show();
+                break;
+            case 4:
+                Toast.makeText(this,"Еще в разработке!",Toast.LENGTH_SHORT).show();
+                break;
+            case 5:
+                Toast.makeText(this,"Еще в разработке!",Toast.LENGTH_SHORT).show();
+                break;
+            case 6:
+                intent = new Intent(this, SchedulerActivity.class);
+                intent.putExtra("URL", urls.get(pos));
+                System.out.println("PutExtra " + urls.get(pos));
+                startActivity(intent);
+                break;
         }
     }
 
@@ -89,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            urls.add("http://my.khai.edu/my/scheduler");
+            hashMap.put("Розклад дисциплін за вибором", "http://my.khai.edu/my/scheduler");
             return hashMap;
         }
 
