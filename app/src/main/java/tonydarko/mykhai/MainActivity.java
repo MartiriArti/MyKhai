@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jsoup.Jsoup;
@@ -66,33 +65,36 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
         Intent intent;
-        switch (pos){
+        switch (pos) {
             case 0:
-                Toast.makeText(this,"Еще в разработке!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Еще в разработке!", Toast.LENGTH_SHORT).show();
                 break;
             case 1:
                 intent = new Intent(this, ExtraBallTableActivity.class);
                 intent.putExtra("URL", urls.get(pos));
-                System.out.println("PutExtra " + urls.get(pos));
                 startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
             case 2:
-                Toast.makeText(this,"Еще в разработке!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Еще в разработке!", Toast.LENGTH_SHORT).show();
                 break;
             case 3:
-                Toast.makeText(this,"Еще в разработке!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Еще в разработке!", Toast.LENGTH_SHORT).show();
                 break;
             case 4:
-                Toast.makeText(this,"Еще в разработке!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Еще в разработке!", Toast.LENGTH_SHORT).show();
                 break;
             case 5:
-                Toast.makeText(this,"Еще в разработке!",Toast.LENGTH_SHORT).show();
+                intent = new Intent(this, OnlineVoteActivity.class);
+                intent.putExtra("URL", urls.get(pos));
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
             case 6:
                 intent = new Intent(this, SchedulerActivity.class);
                 intent.putExtra("URL", urls.get(pos));
-                System.out.println("PutExtra " + urls.get(pos));
                 startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
         }
     }

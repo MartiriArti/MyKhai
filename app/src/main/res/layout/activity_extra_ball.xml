@@ -19,6 +19,7 @@
 
     <ListView
         android:dividerHeight="0dp"
+        android:layoutAnimation="@anim/layout_bottom_to_top_slide"
         android:divider="@android:color/white"
         android:paddingTop="2dp"
         android:id="@+id/listViewTable"

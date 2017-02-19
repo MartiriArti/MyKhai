@@ -17,6 +17,7 @@
         android:background="@color/colorPrimary" />
 
     <ListView
+        android:layoutAnimation="@anim/layout_bottom_to_top_slide"
         android:dividerHeight="0dp"
         android:divider="@android:color/white"
         android:paddingTop="2dp"
