@@ -38,8 +38,9 @@ public class OnlineVoteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_online_vote);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_online_vote);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         setTitle("Онлайн вибір");
 
         Intent intent = getIntent();

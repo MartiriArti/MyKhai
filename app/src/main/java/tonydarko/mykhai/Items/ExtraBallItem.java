@@ -4,17 +4,15 @@ package tonydarko.mykhai.Items;
 public class ExtraBallItem {
 
     public String group;
-    public String lastName;
-    public String firstName;
-    public String otchistvo;
+    public String fio;
+    public String fullBall;
     public String ball;
 
-    public ExtraBallItem(String group, String lastName, String firstName, String otchistvo, String ball) {
+    public ExtraBallItem(String group, String lastName, String fullBall, String ball) {
 
         this.group = group;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.otchistvo = otchistvo;
+        this.fio = lastName;
+        this.fullBall = fullBall;
         this.ball = ball;
     }
 
@@ -27,28 +25,28 @@ public class ExtraBallItem {
         this.group = group;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getFio() {
+        return fio;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setFio(String fio) {
+        this.fio = fio;
     }
 
     public String getFirstName() {
-        return firstName;
+        return fio;
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.fio = firstName;
     }
 
     public String getOtchistvo() {
-        return otchistvo;
+        return fullBall;
     }
 
     public void setOtchistvo(String otchistvo) {
-        this.otchistvo = otchistvo;
+        this.fullBall = otchistvo;
     }
 
     public String getBall() {

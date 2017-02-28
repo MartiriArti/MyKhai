@@ -1,9 +1,13 @@
 package tonydarko.mykhai;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,7 +25,7 @@ import java.util.concurrent.ExecutionException;
 import tonydarko.mykhai.Adapters.ExtraBallAdapter;
 import tonydarko.mykhai.Items.ExtraBallItem;
 
-public class ExtraBallTableActivity extends AppCompatActivity {
+public class ExtraBallTableActivity extends AppCompatActivity{
 
     String url;
     public Elements title;
@@ -34,6 +38,10 @@ public class ExtraBallTableActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_extra_ball);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        setTitle("Додаткові бали");
 
         Intent intent = getIntent();
         url = intent.getStringExtra("URL");
@@ -51,17 +59,18 @@ public class ExtraBallTableActivity extends AppCompatActivity {
             for (int i = 2; i < newTableFinal.length; i++) {
                 data.add(new ExtraBallItem(
                         newTableFinal[i][1],//group
-                        newTableFinal[i][2],//Last Name
-                        newTableFinal[i][3],//First Name
+                        newTableFinal[i][2] + " " + //Last Name
+                        newTableFinal[i][3] + " " + //First Name
                         newTableFinal[i][4],//otch
+                        newTableFinal[i][5],//full ball
                         newTableFinal[i][6]));//ball
             }
             lv.setAdapter(new ExtraBallAdapter(this, data));
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-
     }
+
 
     public class ParseTable extends AsyncTask<String, Void, HashMap<String, String>> {
         HashMap<String, String> hashMap = new LinkedHashMap<>();

@@ -50,16 +50,15 @@ public class ExtraBallAdapter extends BaseAdapter {
         }
         //Обявляем наши текствьюшки и связываем их с разметкой
         TextView group = (TextView) view.findViewById(R.id.group);
-        TextView lN = (TextView) view.findViewById(R.id.last_name);
-        TextView fN = (TextView) view.findViewById(R.id.first_name);
-        TextView otch = (TextView) view.findViewById(R.id.otchistvo);
+        TextView fio = (TextView) view.findViewById(R.id.fio);
+
+        TextView full = (TextView) view.findViewById(R.id.full_ball);
         TextView ball = (TextView) view.findViewById(R.id.ball);
 
         //Устанавливаем в каждую текствьюшку соответствующий текст
        group.setText(data.get(i).group);
-       lN.setText(data.get(i).lastName);
-       fN.setText(data.get(i).firstName);
-       otch.setText(data.get(i).otchistvo);
+       fio.setText(data.get(i).fio);
+       full.setText(data.get(i).fullBall);
        ball.setText(data.get(i).ball);
 
 
