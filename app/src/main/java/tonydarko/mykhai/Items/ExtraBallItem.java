@@ -33,20 +33,13 @@ public class ExtraBallItem {
         this.fio = fio;
     }
 
-    public String getFirstName() {
-        return fio;
-    }
 
-    public void setFirstName(String firstName) {
-        this.fio = firstName;
-    }
-
-    public String getOtchistvo() {
+    public String getFullBall() {
         return fullBall;
     }
 
-    public void setOtchistvo(String otchistvo) {
-        this.fullBall = otchistvo;
+    public void setFullBall(String fullBall) {
+        this.fullBall = fullBall;
     }
 
     public String getBall() {
