@@ -86,56 +86,5 @@ public class ExtraBallAdapter extends BaseAdapter implements Filterable {
 
         return filter;
     }
-
-
-  /*  @Override
-    public Filter getFilter() {
-        if (friendFilter == null) {
-            friendFilter = new FriendFilter();
-        }
-
-        return friendFilter;
-    }
-
-    private class FriendFilter extends Filter {
-
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            FilterResults filterResults = new FilterResults();
-            if (constraint!=null && constraint.length()>0) {
-                ArrayList<ExtraBallItem> tempList = new ArrayList<ExtraBallItem>();
-
-                // search content in list
-                for (ExtraBallItem item : data) {
-                    if (item.getGroup().contains(constraint.toString())) {
-                        tempList.add(item);
-                        System.out.println(item.getGroup() + item.getFio() + item.getBall());
-
-                    }
-                }
-                filterResults.count = tempList.size();
-                System.out.println(tempList.size() + " Size");
-                filterResults.values = tempList;
-            } else {
-                filterResults.count = data.size();
-                filterResults.values = data;
-            }
-
-            return filterResults;
-        }
-
-
-        @SuppressWarnings("unchecked")
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            if (results.count == 0)
-                notifyDataSetInvalidated();
-            else {
-                filteredList = (ArrayList<ExtraBallItem>) results.values;
-                notifyDataSetChanged();
-            }
-        }
-    }*/
-
 }
 

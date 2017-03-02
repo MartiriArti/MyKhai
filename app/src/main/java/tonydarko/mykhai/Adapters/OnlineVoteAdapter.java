@@ -7,22 +7,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
+import tonydarko.mykhai.Items.ExtraBallItem;
 import tonydarko.mykhai.Items.OnlineVoteItem;
 import tonydarko.mykhai.R;
+import tonydarko.mykhai.Utils.CustomFilter;
 
 
 public class OnlineVoteAdapter extends BaseAdapter {
-    private ArrayList<OnlineVoteItem> data_online_vote = new ArrayList<>();
+    CustomFilter filter;
+    ArrayList<ExtraBallItem> filteredList;
+    ArrayList<OnlineVoteItem> data_online_vote = new ArrayList<>();
     private Context context;
 
     public OnlineVoteAdapter(Context context, ArrayList<OnlineVoteItem> dat) {
         this.data_online_vote = dat;
         this.context = context;
+    }
+
+    public ArrayList<OnlineVoteItem> getData() {
+        return data_online_vote;
+    }
+
+    public void setData(ArrayList<OnlineVoteItem> data_online_vote) {
+        this.data_online_vote = data_online_vote;
     }
 
     @Override
@@ -74,4 +88,5 @@ public class OnlineVoteAdapter extends BaseAdapter {
 
         return view;
     }
+
 }

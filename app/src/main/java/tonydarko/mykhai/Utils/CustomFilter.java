@@ -28,16 +28,15 @@ public class CustomFilter extends Filter {
         if (constraint != null && constraint.length() > 0) {
 
             //CHANGE TO UPPER FOR CONSISTENCY
-            constraint = constraint.toString().toUpperCase();
+            constraint = constraint.toString();
 
             ArrayList<ExtraBallItem> filteredMovies = new ArrayList<>();
 
             //LOOP THRU FILTER LIST
-            for (int i = 0; i < filterList.size(); i++) {
-                //FILTER
-                if (filterList.get(i).getGroup().contains(constraint)) {
-                    filteredMovies.add(filterList.get(i));
-                }
+            for (ExtraBallItem item : filterList) {
+                if (item.getGroup().contains(constraint.toString())) {
+                    filteredMovies.add(item);
+                   }
             }
 
             results.count = filteredMovies.size();
