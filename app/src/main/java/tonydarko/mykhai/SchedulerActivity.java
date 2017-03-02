@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -23,7 +26,10 @@ import java.util.concurrent.ExecutionException;
 import tonydarko.mykhai.Adapters.SchedulerAdapter;
 import tonydarko.mykhai.Items.SchedulerItem;
 
-public class SchedulerActivity extends AppCompatActivity {
+public class SchedulerActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+
+    private SearchView mSearchView;
+    private MenuItem searchMenuItem;
     String url;
     public Elements title;
     private ListView lv;
@@ -64,6 +70,26 @@ public class SchedulerActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        searchMenuItem = menu.findItem(R.id.action_search);
+        mSearchView = (SearchView) searchMenuItem.getActionView();
+        mSearchView.setOnQueryTextListener(this);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
 
     public class ParseTable extends AsyncTask<String, Void, HashMap<String, String>> {
         HashMap<String, String> hashMap = new LinkedHashMap<>();

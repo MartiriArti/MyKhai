@@ -1,13 +1,13 @@
 package tonydarko.mykhai;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.AdapterView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,10 +25,13 @@ import java.util.concurrent.ExecutionException;
 import tonydarko.mykhai.Adapters.ExtraBallAdapter;
 import tonydarko.mykhai.Items.ExtraBallItem;
 
-public class ExtraBallTableActivity extends AppCompatActivity{
+public class ExtraBallTableActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
+    private SearchView mSearchView;
+    private MenuItem searchMenuItem;
     String url;
     public Elements title;
+    ExtraBallAdapter extraBallAdapter;
     private ListView lv;
     private ArrayList<ExtraBallItem> data = new ArrayList<>();
     String[][] newTableFinal;
@@ -65,10 +68,32 @@ public class ExtraBallTableActivity extends AppCompatActivity{
                         newTableFinal[i][6]));//ball
 
             }
-            lv.setAdapter(new ExtraBallAdapter(this, data));
+            extraBallAdapter = new ExtraBallAdapter(this, data);
+            extraBallAdapter.notifyDataSetChanged();
+            lv.setAdapter(extraBallAdapter);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        searchMenuItem = menu.findItem(R.id.action_search);
+        mSearchView = (SearchView) searchMenuItem.getActionView();
+        mSearchView.setOnQueryTextListener(this);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String queryText) {
+        extraBallAdapter.getFilter().filter(queryText);
+        return false;
     }
 
     public class ParseTable extends AsyncTask<String, Void, HashMap<String, String>> {

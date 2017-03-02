@@ -1,27 +1,41 @@
 package tonydarko.mykhai.Adapters;
 
 import android.content.Context;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import tonydarko.mykhai.Items.ExtraBallItem;
 import tonydarko.mykhai.R;
+import tonydarko.mykhai.Utils.CustomFilter;
 
 
-public class ExtraBallAdapter extends BaseAdapter {
+public class ExtraBallAdapter extends BaseAdapter implements Filterable {
 
-    ArrayList<ExtraBallItem> data = new ArrayList<ExtraBallItem>();
+    CustomFilter filter;
+    ArrayList<ExtraBallItem> data;
+    ArrayList<ExtraBallItem> filteredList;
     Context context;
 
     public ExtraBallAdapter(Context context, ArrayList<ExtraBallItem> data) {
         this.data = data;
         this.context = context;
+        this.filteredList = data;
+        getFilter();
+    }
+
+    public void setData(ArrayList<ExtraBallItem> data) {
+        this.data = data;
+    }
+
+    public ArrayList<ExtraBallItem> getData() {
+        return data;
     }
 
     @Override
@@ -56,12 +70,72 @@ public class ExtraBallAdapter extends BaseAdapter {
         TextView ball = (TextView) view.findViewById(R.id.ball);
 
         //Устанавливаем в каждую текствьюшку соответствующий текст
-       group.setText(data.get(i).group);
-       fio.setText(data.get(i).fio);
-       full.setText(data.get(i).fullBall);
-       ball.setText(data.get(i).ball);
-
-
+        group.setText(data.get(i).group);
+        fio.setText(data.get(i).fio);
+        full.setText(data.get(i).fullBall);
+        ball.setText(data.get(i).ball);
         return view;
     }
+
+    @Override
+    public Filter getFilter() {
+
+        if (filter == null) {
+            filter = new CustomFilter(data, this);
+        }
+
+        return filter;
+    }
+
+
+  /*  @Override
+    public Filter getFilter() {
+        if (friendFilter == null) {
+            friendFilter = new FriendFilter();
+        }
+
+        return friendFilter;
+    }
+
+    private class FriendFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults filterResults = new FilterResults();
+            if (constraint!=null && constraint.length()>0) {
+                ArrayList<ExtraBallItem> tempList = new ArrayList<ExtraBallItem>();
+
+                // search content in list
+                for (ExtraBallItem item : data) {
+                    if (item.getGroup().contains(constraint.toString())) {
+                        tempList.add(item);
+                        System.out.println(item.getGroup() + item.getFio() + item.getBall());
+
+                    }
+                }
+                filterResults.count = tempList.size();
+                System.out.println(tempList.size() + " Size");
+                filterResults.values = tempList;
+            } else {
+                filterResults.count = data.size();
+                filterResults.values = data;
+            }
+
+            return filterResults;
+        }
+
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            if (results.count == 0)
+                notifyDataSetInvalidated();
+            else {
+                filteredList = (ArrayList<ExtraBallItem>) results.values;
+                notifyDataSetChanged();
+            }
+        }
+    }*/
+
 }
+

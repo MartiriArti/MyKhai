@@ -2,7 +2,9 @@ package tonydarko.mykhai;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -82,15 +85,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Toast.makeText(this, "Еще в разработке!", Toast.LENGTH_SHORT).show();
                 break;
             case 4:
-                Toast.makeText(this, "Еще в разработке!", Toast.LENGTH_SHORT).show();
-                break;
-            case 5:
                 intent = new Intent(this, OnlineVoteActivity.class);
                 intent.putExtra("URL", urls.get(pos));
                 startActivity(intent);
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
-            case 6:
+            case 5:
                 intent = new Intent(this, SchedulerActivity.class);
                 intent.putExtra("URL", urls.get(pos));
                 startActivity(intent);
@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public class ParseTitle extends AsyncTask<String, Void, HashMap<String, String>> {
         HashMap<String, String> hashMap = new LinkedHashMap<>();
 
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected HashMap<String, String> doInBackground(String... arg) {
 
@@ -111,8 +112,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 title = doc.select(".blackLink");
                 for (Element titles : title) {
                     Element element = titles.select("a[href]").first();
-                    hashMap.put(titles.text(), element.attr("abs:href"));
-                    urls.add(element.attr("abs:href"));
+                    if (!Objects.equals(titles.text(), "Викладачі")) {
+                        hashMap.put(titles.text(), element.attr("abs:href"));
+                        urls.add(element.attr("abs:href"));
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();

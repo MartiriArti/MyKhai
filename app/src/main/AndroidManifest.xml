@@ -21,7 +21,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".ExtraBallTableActivity" />
+        <activity android:name=".ExtraBallTableActivity">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable">
+            </meta-data>
+        </activity>
         <activity android:name=".SchedulerActivity" />
         <activity android:name=".OnlineVoteActivity"></activity>
     </application>
