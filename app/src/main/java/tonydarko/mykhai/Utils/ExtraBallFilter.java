@@ -7,36 +7,31 @@ import java.util.ArrayList;
 import tonydarko.mykhai.Adapters.ExtraBallAdapter;
 import tonydarko.mykhai.Items.ExtraBallItem;
 
-public class CustomFilter extends Filter {
+public class ExtraBallFilter extends Filter {
 
     ArrayList<ExtraBallItem> filterList;
     ExtraBallAdapter adapter;
 
-    public CustomFilter(ArrayList<ExtraBallItem> filterList, ExtraBallAdapter adapter) {
+    public ExtraBallFilter(ArrayList<ExtraBallItem> filterList, ExtraBallAdapter adapter) {
         this.filterList = filterList;
         this.adapter = adapter;
     }
 
-    //FILTERING
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
 
-        //RESULTS
         FilterResults results = new FilterResults();
 
-        //VALIDATION
         if (constraint != null && constraint.length() > 0) {
-
-            //CHANGE TO UPPER FOR CONSISTENCY
-            constraint = constraint.toString();
+            constraint = constraint.toString().toLowerCase();
 
             ArrayList<ExtraBallItem> filteredMovies = new ArrayList<>();
 
-            //LOOP THRU FILTER LIST
             for (ExtraBallItem item : filterList) {
-                if (item.getGroup().contains(constraint.toString())) {
+                if (item.getGroup().toLowerCase().contains(constraint.toString().toLowerCase())
+                        | item.getFio().toLowerCase().contains(constraint.toString()) ) {
                     filteredMovies.add(item);
-                   }
+                }
             }
 
             results.count = filteredMovies.size();
@@ -48,12 +43,8 @@ public class CustomFilter extends Filter {
         return results;
     }
 
-
-    //PUBLISH RESULTS
-
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-
         adapter.setData((ArrayList<ExtraBallItem>) results.values);
         adapter.notifyDataSetChanged();
 

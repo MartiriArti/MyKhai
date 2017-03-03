@@ -5,21 +5,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import tonydarko.mykhai.Items.SchedulerItem;
 import tonydarko.mykhai.R;
+import tonydarko.mykhai.Utils.ExtraBallFilter;
+import tonydarko.mykhai.Utils.SchedullerFilter;
 
-public class SchedulerAdapter extends BaseAdapter {
+public class SchedulerAdapter extends BaseAdapter implements Filterable {
 
+    SchedullerFilter filter;
     private ArrayList<SchedulerItem> data_scheduler = new ArrayList<>();
     private Context context;
 
     public SchedulerAdapter(Context context, ArrayList<SchedulerItem> dat) {
         this.data_scheduler = dat;
         this.context = context;
+        getFilter();
     }
 
     @Override
@@ -66,4 +72,23 @@ public class SchedulerAdapter extends BaseAdapter {
 
         return view;
     }
+
+    public ArrayList<SchedulerItem> getData() {
+        return data_scheduler;
+    }
+
+    public void setData(ArrayList<SchedulerItem> data_scheduler) {
+        this.data_scheduler = data_scheduler;
+    }
+
+    @Override
+    public Filter getFilter() {
+
+        if (filter == null) {
+            filter = new SchedullerFilter(data_scheduler, this);
+        }
+
+        return filter;
+    }
+
 }

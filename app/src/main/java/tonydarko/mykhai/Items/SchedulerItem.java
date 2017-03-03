@@ -35,11 +35,19 @@ public class SchedulerItem {
         this.group = group;
     }
 
-    public String getParaFioPrepod() {
+    public String getFioPrepod() {
         return fioPrepod;
     }
 
-    public void setParaFioPrepod(String fioPrepod) {
+    public String getPara() {
+        return para;
+    }
+
+    public void setPara(String para) {
+        this.para = para;
+    }
+
+    public void setFioPrepod(String fioPrepod) {
         this.fioPrepod = fioPrepod;
     }
 

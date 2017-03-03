@@ -31,6 +31,7 @@ public class SchedulerActivity extends AppCompatActivity implements SearchView.O
     private SearchView mSearchView;
     private MenuItem searchMenuItem;
     String url;
+    SchedulerAdapter adapter;
     public Elements title;
     private ListView lv;
     private ArrayList<SchedulerItem> data = new ArrayList<>();
@@ -63,8 +64,8 @@ public class SchedulerActivity extends AppCompatActivity implements SearchView.O
                         newTableFinal[i][4],//date
                         newTableFinal[i][5]));//fio_prepod
             }
-
-            lv.setAdapter(new SchedulerAdapter(this, data));
+            adapter = new SchedulerAdapter(this, data);
+            lv.setAdapter(adapter);
 
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
@@ -87,6 +88,7 @@ public class SchedulerActivity extends AppCompatActivity implements SearchView.O
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        adapter.getFilter().filter(newText);
         return false;
     }
 

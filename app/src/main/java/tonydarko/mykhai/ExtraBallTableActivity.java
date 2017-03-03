@@ -1,6 +1,7 @@
 package tonydarko.mykhai;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -81,6 +82,7 @@ public class ExtraBallTableActivity extends AppCompatActivity implements SearchV
         getMenuInflater().inflate(R.menu.menu, menu);
         searchMenuItem = menu.findItem(R.id.action_search);
         mSearchView = (SearchView) searchMenuItem.getActionView();
+        mSearchView.setBackgroundColor(Color.WHITE);
         mSearchView.setOnQueryTextListener(this);
         return true;
     }

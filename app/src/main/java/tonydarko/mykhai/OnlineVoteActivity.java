@@ -34,6 +34,7 @@ public class OnlineVoteActivity extends AppCompatActivity implements SearchView.
     private SearchView mSearchView;
     private MenuItem searchMenuItem;
     String url;
+    OnlineVoteAdapter adapter;
     public Elements title;
     private ListView lv;
     private ArrayList<OnlineVoteItem> data = new ArrayList<>();
@@ -68,7 +69,8 @@ public class OnlineVoteActivity extends AppCompatActivity implements SearchView.
                         newTableFinal[i][5],//group
                         newTableFinal[i][6]));//date
             }
-            lv.setAdapter(new OnlineVoteAdapter(this, data));
+            adapter = new OnlineVoteAdapter(this, data);
+            lv.setAdapter(adapter);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -91,6 +93,7 @@ public class OnlineVoteActivity extends AppCompatActivity implements SearchView.
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        adapter.getFilter().filter(newText);
         return false;
     }
 

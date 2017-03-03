@@ -17,11 +17,13 @@ import java.util.Objects;
 import tonydarko.mykhai.Items.ExtraBallItem;
 import tonydarko.mykhai.Items.OnlineVoteItem;
 import tonydarko.mykhai.R;
-import tonydarko.mykhai.Utils.CustomFilter;
+import tonydarko.mykhai.Utils.ExtraBallFilter;
+import tonydarko.mykhai.Utils.VoteFilter;
 
 
-public class OnlineVoteAdapter extends BaseAdapter {
-    CustomFilter filter;
+public class OnlineVoteAdapter extends BaseAdapter implements Filterable {
+
+    VoteFilter filter;
     ArrayList<ExtraBallItem> filteredList;
     ArrayList<OnlineVoteItem> data_online_vote = new ArrayList<>();
     private Context context;
@@ -29,6 +31,7 @@ public class OnlineVoteAdapter extends BaseAdapter {
     public OnlineVoteAdapter(Context context, ArrayList<OnlineVoteItem> dat) {
         this.data_online_vote = dat;
         this.context = context;
+        getFilter();
     }
 
     public ArrayList<OnlineVoteItem> getData() {
@@ -87,6 +90,16 @@ public class OnlineVoteAdapter extends BaseAdapter {
         }
 
         return view;
+    }
+
+    @Override
+    public Filter getFilter() {
+
+        if (filter == null) {
+            filter = new VoteFilter(data_online_vote, this);
+        }
+
+        return filter;
     }
 
 }
