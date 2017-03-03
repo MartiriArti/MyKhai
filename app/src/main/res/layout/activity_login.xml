@@ -1,69 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="tonydarko.mykhai.LoginActivity">
 
     <ImageView
-        android:contentDescription="@string/app_name"
-        android:paddingBottom="10dp"
-        android:background="@color/colorPrimary"
         android:id="@+id/logo"
-        android:layout_gravity=""
-        android:src="@mipmap/logo"
         android:layout_width="match_parent"
-        android:layout_height="160dp" />
+        android:layout_height="160dp"
+        android:layout_gravity=""
+        android:background="@color/colorPrimary"
+        android:contentDescription="@string/app_name"
+        android:src="@mipmap/logo" />
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:text="Знання, якi пiдкорюють небо"
         android:gravity="center"
         android:paddingBottom="5dp"
+        android:text="Знання, якi пiдкорюють небо"
         android:textColor="@android:color/white"
-        android:textSize="22sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:textSize="22sp" />
 
-    <EditText
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:layout_marginTop="100dp"
-        android:id="@+id/login"
-        android:hint="Введите логин"
-        android:textColor="@color/colorPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:layout_marginTop="20dp"
-        android:id="@+id/password"
-        android:textColor="@color/colorPrimary"
-        android:hint="Введите пароль"
-        android:inputType="textPassword"
+        app:counterEnabled="true"
+        app:counterMaxLength="14"
+        app:counterOverflowTextAppearance="@style/MyCounterText"
+        app:errorEnabled="true"
+        app:hintTextAppearance="@style/MyHintText">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Введите логин"
+            android:textColor="@color/colorPrimary" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_pass"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="14"
+        app:counterOverflowTextAppearance="@style/MyCounterText"
+        app:errorEnabled="true"
+        app:hintTextAppearance="@style/MyHintText"
+        app:passwordToggleContentDescription="description"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/colorAccent">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Введите пароль"
+            android:inputType="textPassword"
+            android:textColor="@color/colorPrimary" />
+
+    </android.support.design.widget.TextInputLayout>
 
     <Button
+        android:id="@+id/btn"
+        android:enabled="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="50dp"
         android:background="@android:color/white"
-        android:textColor="@color/colorPrimary"
         android:text="Войти"
-        android:layout_gravity="center"
-        android:id="@+id/btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:textColor="@color/colorPrimary" />
 
 
 </LinearLayout>
