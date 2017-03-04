@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,12 +22,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import tonydarko.mykhai.Adapters.ExtraBallAdapter;
 import tonydarko.mykhai.Items.ExtraBallItem;
 
 public class ExtraBallTableActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+
+    final static String URL = "http://my.khai.edu/my/login";
+    final static String MyLogin = "martishkov_a";
+    final static String MyPassword = "ant641448";
+    private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0";
+    // credentials
 
     private SearchView mSearchView;
     private MenuItem searchMenuItem;
@@ -124,6 +132,28 @@ public class ExtraBallTableActivity extends AppCompatActivity implements SearchV
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            try {
+                Connection.Response response = Jsoup
+                        .connect(url)
+                       // .userAgent(USER_AGENT)
+                      //  .data("utf8", "?")
+                      //  .data("authenticity_token", "???????????")
+                        .data("username", MyLogin)
+                        .data("password", MyPassword)
+                     //   .data("submit", "true")
+                        .execute();
+
+
+                Map loginCoockies = response.cookies();
+                System.out.println(loginCoockies);
+                Document doc2 = Jsoup.connect("http://my.khai.edu/my")
+                        .cookies(loginCoockies)
+                        .get();
+                System.out.println(doc2);
+
+            }catch(Exception e){e.printStackTrace();}
+
             return hashMap;
         }
     }

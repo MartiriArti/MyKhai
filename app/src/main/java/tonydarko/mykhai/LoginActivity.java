@@ -12,10 +12,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.util.Map;
+
 import tonydarko.mykhai.Utils.NetworkStatusChecker;
+
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
+    final static String URL = "http://my.khai.edu/my/login";
+    final static String MyLogin = "martishkov_a";
+    final static String MyPassword = "ant641448";
+    private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0";
+    // credentials
     FloatingActionButton btn;
     Button noRegBtn;
     TextInputLayout inputLogin, inputPass;
@@ -43,6 +58,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setInputText();
         noRegBtn.setOnClickListener(this);
         btn.setOnClickListener(this);
+
     }
 
     @Override
@@ -61,17 +77,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btn:
                 if (NetworkStatusChecker.isNetworkAvailable(LoginActivity.this)) {
                     if (login.getText().length() != 0 & pass.getText().length() != 0) {
-                        LoginActivity.this.startActivity(mainIntent);
+                       /* LoginActivity.this.startActivity(mainIntent);
                         overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                        LoginActivity.this.finish();
+                        LoginActivity.this.finish();*/
+
+
+                        Toast.makeText(this, "Логин или пароль пуст", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
                     }
-                    Toast.makeText(this, "Логин или пароль пуст", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
+                    break;
                 }
-                break;
         }
     }
+
 
     public void setInputText() {
         login.addTextChangedListener(new TextWatcher() {
@@ -84,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (charSequence.length() == 0) {
                     btn.setEnabled(false);
                     inputLogin.setError("Логин пуст");
-                } else if (charSequence.length() != 0){
+                } else if (charSequence.length() != 0) {
                     btn.setEnabled(true);
                     inputLogin.setErrorEnabled(false);
                 }
@@ -109,7 +128,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (charSequence.length() == 0) {
                     btn.setEnabled(false);
                     inputPass.setError("Пароль пуст");
-                } else if (charSequence.length() != 0){
+                } else if (charSequence.length() != 0) {
                     btn.setEnabled(true);
                     inputPass.setErrorEnabled(false);
                 }
