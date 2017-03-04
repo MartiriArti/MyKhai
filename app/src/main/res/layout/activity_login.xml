@@ -1,108 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@mipmap/students"
     tools:context="tonydarko.mykhai.LoginActivity">
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_gravity=""
-        android:background="@color/colorPrimary"
-        android:contentDescription="@string/app_name"
-        android:src="@mipmap/logo" />
-
-    <TextView
-        android:layout_width="match_parent"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:paddingBottom="5dp"
-        android:text="Знання, якi пiдкорюють небо"
-        android:textColor="@android:color/white"
-        android:textSize="22sp" />
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="24dp"
+        android:alpha=".87"
+        android:background="@color/cardview_light_background">
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/input_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        app:counterEnabled="true"
-        app:counterMaxLength="14"
-        app:counterOverflowTextAppearance="@style/MyCounterText"
-        app:errorEnabled="true"
-        app:hintTextAppearance="@style/MyHintText">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/login"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/ll_login"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Введите логин"
-            android:textColor="@color/colorPrimary" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/cardview_light_background"
+            android:orientation="vertical">
 
-    </android.support.design.widget.TextInputLayout>
+            <ImageView
+                android:id="@+id/logobl"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/cardview_light_background"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/loglblue" />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/input_pass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        app:counterEnabled="true"
-        app:counterMaxLength="14"
-        app:counterOverflowTextAppearance="@style/MyCounterText"
-        app:errorEnabled="true"
-        app:hintTextAppearance="@style/MyHintText"
-        app:passwordToggleContentDescription="description"
-        app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/colorAccent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/cardview_light_background"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:text="Знання, якi пiдкорюють небо"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="22sp" />
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Введите пароль"
-            android:inputType="textPassword"
-            android:textColor="@color/colorPrimary" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                app:counterEnabled="true"
+                app:counterMaxLength="14"
+                app:counterOverflowTextAppearance="@style/MyCounterText"
+                app:errorEnabled="true"
+                app:hintTextAppearance="@style/MyHintText">
 
-    </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Введите логин"
+                    android:textColor="@color/colorPrimary" />
 
-    <Button
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                app:counterEnabled="true"
+                app:counterMaxLength="14"
+                app:counterOverflowTextAppearance="@style/MyCounterText"
+                app:errorEnabled="true"
+                app:hintTextAppearance="@style/MyHintText"
+                app:passwordToggleContentDescription="description"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/colorAccent">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Введите пароль"
+                    android:inputType="textPassword"
+                    android:textColor="@color/colorPrimary" />
+
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="50dp"
-        android:background="@android:color/white"
-        android:enabled="false"
-        android:text="Войти"
-        android:textColor="@color/colorPrimary" />
+        android:clickable="true"
+        android:src="@drawable/ic_check_white_48dp"
+        app:fabSize="normal"
+        app:layout_anchor="@id/ll_login"
+        app:layout_anchorGravity="bottom|center_horizontal" />
 
     <Button
         android:id="@+id/no_reg_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
-        android:background="@android:color/white"
-        android:text="Без входа"
-        android:textColor="@color/colorPrimary" />
+        android:background="@color/khaiBlue"
+        android:text="Публичная информация"
+        android:textColor="@android:color/white" />
 
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -2,6 +2,7 @@ package tonydarko.mykhai;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +16,8 @@ import tonydarko.mykhai.Utils.NetworkStatusChecker;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button btn, noRegBtn;
+    FloatingActionButton btn;
+    Button noRegBtn;
     TextInputLayout inputLogin, inputPass;
     TextInputEditText login, pass;
     Intent mainIntent;
@@ -33,7 +35,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         pass = (TextInputEditText) findViewById(R.id.password);
 
         noRegBtn = (Button) findViewById(R.id.no_reg_btn);
-        btn = (Button) findViewById(R.id.btn);
+        btn = (FloatingActionButton) findViewById(R.id.btn);
 
         mainIntent = new Intent(LoginActivity.this, MainActivity.class);
         networkStatusChecker = new NetworkStatusChecker();
