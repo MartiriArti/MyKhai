@@ -16,8 +16,4 @@
         <item name="android:textColor">@android:color/holo_orange_dark</item>
     </style>
 
-    <style name="MyInputText" parent="Widget.Design.TextInputLayout">
-        <item name="android:textColor">@color/colorAccent</item>
-    </style>
-
 </resources>

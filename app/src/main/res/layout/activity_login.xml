@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="20dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         app:counterEnabled="true"
@@ -81,7 +81,6 @@
 
     <Button
         android:id="@+id/btn"
-        android:enabled="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -89,7 +88,20 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="50dp"
         android:background="@android:color/white"
+        android:enabled="false"
         android:text="Войти"
+        android:textColor="@color/colorPrimary" />
+
+    <Button
+        android:id="@+id/no_reg_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/white"
+        android:text="Без входа"
         android:textColor="@color/colorPrimary" />
 
 
