@@ -1,5 +1,6 @@
 package tonydarko.mykhai;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +12,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import tonydarko.mykhai.Adapters.ExtraBallAdapter;
 import tonydarko.mykhai.Items.ExtraBallItem;
-import tonydarko.mykhai.Utils.Cache;
+import tonydarko.mykhai.Parsers.ExtraParser;
 
 public class ExtraBallTableActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -26,7 +28,6 @@ public class ExtraBallTableActivity extends AppCompatActivity implements SearchV
     private ArrayList<ExtraBallItem> data = new ArrayList<>();
     String[][] newTableFinal;
     TextView info;
-    Cache cache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,17 +37,23 @@ public class ExtraBallTableActivity extends AppCompatActivity implements SearchV
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         setTitle("Додаткові бали");
-        //  Intent intent = getIntent();
-        //  url = intent.getStringExtra("URL");
+          Intent intent = getIntent();
+          url = intent.getStringExtra("URL");
 
         lv = (ListView) findViewById(R.id.listViewTable);
 
         info = (TextView) findViewById(R.id.inform);
 
-        newTableFinal = Cache.getNewTableFinal();
+        ExtraParser parser = new ExtraParser(url);
+        parser.execute();
+        try {
+            parser.get();
+           newTableFinal = parser.getNewTableFinal();
+            data = parser.getData();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         info.setText(newTableFinal[0][0]);//info message
-
-        data = Cache.getData();
 
         extraBallAdapter = new ExtraBallAdapter(this, data);
         extraBallAdapter.notifyDataSetChanged();

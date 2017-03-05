@@ -1,11 +1,7 @@
 package tonydarko.mykhai;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -14,30 +10,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-
-import tonydarko.mykhai.Parsers.ExtraParser;
-import tonydarko.mykhai.Utils.Cache;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     public Elements title;
     private ArrayList<String> urls;
     private ListView lv;
-    Cache cache;
-    MainActivity activity;
-    ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,31 +33,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         lv = (ListView) findViewById(R.id.listView1);
 
-        ParseTitle parseTitle = new ParseTitle();
-        parseTitle.execute();
 
-        try {
-            final HashMap<String, String> hashMap = parseTitle.get();
-            final ArrayList<String> arrayList = new ArrayList<>();
-            for (Map.Entry entry : hashMap.entrySet()) {
-                arrayList.add(entry.getKey().toString());
-            }
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
-                    R.layout.main_item, R.id.tv_main_item, arrayList);
+        final ArrayList<String> arrayList = new ArrayList<>();
 
-            lv.setAdapter(arrayAdapter);
-            lv.setOnItemClickListener(this);
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+        urls.add("http://my.khai.edu/my/student_marks");
+            arrayList.add("Оцінки студента");
+        urls.add("http://my.khai.edu/my/scolarship_ball");
+            arrayList.add("Додаткові бали");
+        urls.add("http://my.khai.edu/my/student_rating");
+            arrayList.add("Рейтинги на стипендію");
+        urls.add("http://my.khai.edu/my/discipline");
+            arrayList.add("Вибір дисципліни");
+        urls.add("http://my.khai.edu/my/stats");
+            arrayList.add("Онлайн вибір");
+        urls.add("http://my.khai.edu/my/scheduler");
+            arrayList.add("Розклад занять за вибором");
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Загрузка данных");
-        progressDialog.setIndeterminate(false);
-        progressDialog.setMax(100);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setCancelable(true);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
+                R.layout.main_item, R.id.tv_main_item, arrayList);
 
+        lv.setAdapter(arrayAdapter);
+        lv.setOnItemClickListener(this);
     }
 
     @Override
@@ -86,22 +64,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Toast.makeText(this, "Еще в разработке!", Toast.LENGTH_SHORT).show();
                 break;
             case 1:
-                progressDialog.show();
-
-
-                try {
-                    ExtraParser parser = new ExtraParser(urls.get(pos));
-                    parser.execute();
-                    parser.get();
-                    Cache.setData(parser.getData());
-                    Cache.setNewTableFinal(parser.getNewTableFinal());
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
-
                 intent = new Intent(this, ExtraBallTableActivity.class);
-                progressDialog.dismiss();
-             //   intent.putExtra("URL", urls.get(pos));
+                intent.putExtra("URL", urls.get(pos));
                 startActivity(intent);
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
@@ -124,33 +88,5 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
         }
-    }
-
-    public class ParseTitle extends AsyncTask<String, Void, HashMap<String, String>> {
-        HashMap<String, String> hashMap = new LinkedHashMap<>();
-
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        @Override
-        protected HashMap<String, String> doInBackground(String... arg) {
-
-            Document doc;
-            try {
-                doc = Jsoup.connect("http://my.khai.edu").get();
-                title = doc.select(".blackLink");
-                for (Element titles : title) {
-                    Element element = titles.select("a[href]").first();
-                    if (!Objects.equals(titles.text(), "Викладачі")) {
-                        hashMap.put(titles.text(), element.attr("abs:href"));
-                        urls.add(element.attr("abs:href"));
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            urls.add("http://my.khai.edu/my/scheduler");
-            hashMap.put("Розклад дисциплін за вибором", "http://my.khai.edu/my/scheduler");
-            return hashMap;
-        }
-
     }
 }

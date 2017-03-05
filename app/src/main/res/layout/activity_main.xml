@@ -18,9 +18,4 @@
         android:paddingTop="60dp">
     </ListView>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="60dp" />
 </RelativeLayout>
