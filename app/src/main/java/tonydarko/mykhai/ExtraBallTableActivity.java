@@ -1,8 +1,12 @@
 package tonydarko.mykhai;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -11,7 +15,15 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.concurrent.ExecutionException;
 
 import tonydarko.mykhai.Adapters.ExtraBallAdapter;
@@ -20,14 +32,16 @@ import tonydarko.mykhai.Parsers.ExtraParser;
 
 public class ExtraBallTableActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
+    ProgressDialog progressDialog;
     private SearchView mSearchView;
     private MenuItem searchMenuItem;
     String url;
     ExtraBallAdapter extraBallAdapter;
-    private ListView lv;
-    private ArrayList<ExtraBallItem> data = new ArrayList<>();
+    ListView lv;
+    ArrayList<ExtraBallItem> data = new ArrayList<>();
     String[][] newTableFinal;
     TextView info;
+    Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,19 +51,46 @@ public class ExtraBallTableActivity extends AppCompatActivity implements SearchV
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         setTitle("Додаткові бали");
-          Intent intent = getIntent();
-          url = intent.getStringExtra("URL");
+        Intent intent = getIntent();
+        url = intent.getStringExtra("URL");
 
         lv = (ListView) findViewById(R.id.listViewTable);
 
         info = (TextView) findViewById(R.id.inform);
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Title");
+        progressDialog.setMessage("Message");
+        // меняем стиль на индикатор
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        // устанавливаем максимум
+        progressDialog.setMax(1407);
+        // включаем анимацию ожидания
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+
+        handler = new Handler() {
+            public void handleMessage(Message msg) {
+                // выключаем анимацию ожидания
+                progressDialog.setIndeterminate(false);
+                if (progressDialog.getProgress() < progressDialog.getMax()) {
+                    // увеличиваем значения индикаторов
+                    progressDialog.incrementProgressBy(60);
+                    progressDialog.incrementSecondaryProgressBy(75);
+                    handler.sendEmptyMessageDelayed(0, 100);
+                } else {
+                    progressDialog.dismiss();
+                }
+            }
+        };
+        handler.sendEmptyMessageDelayed(0, 2000);
+
         ExtraParser parser = new ExtraParser(url);
         parser.execute();
         try {
             parser.get();
+          data = parser.getData();
            newTableFinal = parser.getNewTableFinal();
-            data = parser.getData();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -81,5 +122,4 @@ public class ExtraBallTableActivity extends AppCompatActivity implements SearchV
         extraBallAdapter.getFilter().filter(queryText);
         return false;
     }
-
 }

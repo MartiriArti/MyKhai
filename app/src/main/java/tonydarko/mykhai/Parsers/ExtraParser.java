@@ -15,30 +15,29 @@ import java.util.LinkedHashMap;
 import tonydarko.mykhai.Items.ExtraBallItem;
 
 public class ExtraParser extends AsyncTask<String, Void, HashMap<String, String>> {
-
-    private ArrayList<ExtraBallItem> data = new ArrayList<>();
-    String[][] newTableFinal;
-    String url;
     Elements title;
     HashMap<String, String> hashMap = new LinkedHashMap<>();
+    ArrayList<ExtraBallItem> data = new ArrayList<>();
+    String url;
+    String[][] newTableFinal;
 
-    public ExtraParser(String url) {
+   public ExtraParser(String url){
         this.url = url;
-    }
-
-    public ArrayList<ExtraBallItem> getData() {
-        return data;
     }
 
     public String[][] getNewTableFinal() {
         return newTableFinal;
     }
 
+    public ArrayList<ExtraBallItem> getData() {
+        return data;
+    }
+
     @Override
     protected HashMap<String, String> doInBackground(String... arg) {
         Document doc;
         try {
-            doc = Jsoup.connect(url).timeout(5000).get();
+            doc = Jsoup.connect(url).get();
             title = doc.select("tr");
             int t = 0;
             newTableFinal = new String[title.size()][];

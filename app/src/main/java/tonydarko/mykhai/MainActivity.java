@@ -1,7 +1,9 @@
 package tonydarko.mykhai;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -13,13 +15,15 @@ import android.widget.Toast;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import android.os.Handler;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     public Elements title;
     private ArrayList<String> urls;
     private ListView lv;
-
+    ProgressDialog progressDialog;
+    Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         toolbar.setLogo(R.mipmap.logo);
 
         lv = (ListView) findViewById(R.id.listView1);
-
 
         final ArrayList<String> arrayList = new ArrayList<>();
 
