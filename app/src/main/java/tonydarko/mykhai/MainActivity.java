@@ -1,5 +1,6 @@
 package tonydarko.mykhai;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -26,11 +27,17 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
+import tonydarko.mykhai.Parsers.ExtraParser;
+import tonydarko.mykhai.Utils.Cache;
+
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     public Elements title;
     private ArrayList<String> urls;
     private ListView lv;
+    Cache cache;
+    MainActivity activity;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         urls = new ArrayList<>();
 
         toolbar.setLogo(R.mipmap.logo);
@@ -62,6 +68,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Загрузка данных");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setMax(100);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setCancelable(true);
+
     }
 
     @Override
@@ -72,8 +86,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Toast.makeText(this, "Еще в разработке!", Toast.LENGTH_SHORT).show();
                 break;
             case 1:
+                progressDialog.show();
+
+
+                try {
+                    ExtraParser parser = new ExtraParser(urls.get(pos));
+                    parser.execute();
+                    parser.get();
+                    Cache.setData(parser.getData());
+                    Cache.setNewTableFinal(parser.getNewTableFinal());
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+
                 intent = new Intent(this, ExtraBallTableActivity.class);
-                intent.putExtra("URL", urls.get(pos));
+                progressDialog.dismiss();
+             //   intent.putExtra("URL", urls.get(pos));
                 startActivity(intent);
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;

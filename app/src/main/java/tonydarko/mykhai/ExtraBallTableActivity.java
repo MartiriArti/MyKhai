@@ -1,7 +1,5 @@
 package tonydarko.mykhai;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,11 +11,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import tonydarko.mykhai.Adapters.ExtraBallAdapter;
 import tonydarko.mykhai.Items.ExtraBallItem;
-import tonydarko.mykhai.Parsers.ExtraParser;
+import tonydarko.mykhai.Utils.Cache;
 
 public class ExtraBallTableActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -29,6 +26,8 @@ public class ExtraBallTableActivity extends AppCompatActivity implements SearchV
     private ArrayList<ExtraBallItem> data = new ArrayList<>();
     String[][] newTableFinal;
     TextView info;
+    Cache cache;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,30 +36,22 @@ public class ExtraBallTableActivity extends AppCompatActivity implements SearchV
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         setTitle("Додаткові бали");
-        Intent intent = getIntent();
-        url = intent.getStringExtra("URL");
+        //  Intent intent = getIntent();
+        //  url = intent.getStringExtra("URL");
 
         lv = (ListView) findViewById(R.id.listViewTable);
 
         info = (TextView) findViewById(R.id.inform);
 
-        ExtraParser parser = new ExtraParser(url);
-        parser.execute();
+        newTableFinal = Cache.getNewTableFinal();
+        info.setText(newTableFinal[0][0]);//info message
 
-        try {
-            parser.get();
-            newTableFinal = parser.getNewTableFinal();
-            info.setText(newTableFinal[0][0]);//info message
+        data = Cache.getData();
 
-            data = parser.getData();
+        extraBallAdapter = new ExtraBallAdapter(this, data);
+        extraBallAdapter.notifyDataSetChanged();
 
-            extraBallAdapter = new ExtraBallAdapter(this, data);
-            extraBallAdapter.notifyDataSetChanged();
-
-            lv.setAdapter(extraBallAdapter);
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+        lv.setAdapter(extraBallAdapter);
     }
 
     @Override
@@ -83,6 +74,5 @@ public class ExtraBallTableActivity extends AppCompatActivity implements SearchV
         extraBallAdapter.getFilter().filter(queryText);
         return false;
     }
-
 
 }

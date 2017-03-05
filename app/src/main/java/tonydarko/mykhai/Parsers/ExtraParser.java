@@ -1,9 +1,6 @@
 package tonydarko.mykhai.Parsers;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
-import android.support.annotation.MainThread;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import tonydarko.mykhai.ExtraBallTableActivity;
 import tonydarko.mykhai.Items.ExtraBallItem;
 
 public class ExtraParser extends AsyncTask<String, Void, HashMap<String, String>> {
@@ -25,9 +21,8 @@ public class ExtraParser extends AsyncTask<String, Void, HashMap<String, String>
     String url;
     Elements title;
     HashMap<String, String> hashMap = new LinkedHashMap<>();
-    ExtraBallTableActivity activity;
 
-   public ExtraParser(String url){
+    public ExtraParser(String url) {
         this.url = url;
     }
 
@@ -41,10 +36,9 @@ public class ExtraParser extends AsyncTask<String, Void, HashMap<String, String>
 
     @Override
     protected HashMap<String, String> doInBackground(String... arg) {
-
         Document doc;
         try {
-            doc = Jsoup.connect(url).get();
+            doc = Jsoup.connect(url).timeout(5000).get();
             title = doc.select("tr");
             int t = 0;
             newTableFinal = new String[title.size()][];
@@ -68,7 +62,7 @@ public class ExtraParser extends AsyncTask<String, Void, HashMap<String, String>
         return hashMap;
     }
 
-    public void afterParsing(){
+    public void afterParsing() {
         for (int i = 2; i < newTableFinal.length; i++) {
             newTableFinal[i][2] += " " + newTableFinal[i][3] + " " + newTableFinal[i][4];
             data.add(new ExtraBallItem(
