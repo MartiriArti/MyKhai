@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             lv.setAdapter(arrayAdapter);
             lv.setOnItemClickListener(this);
-
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
