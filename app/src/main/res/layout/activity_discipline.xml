@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="tonydarko.mykhai.DisciplineActivity">
+
+    <include layout="@xml/toolbar" />
+
+    <TextView
+
+        android:id="@+id/informDiscipline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/dangerDiscipline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+    <ListView
+        android:id="@+id/listViewDiscipline"
+        android:layoutAnimation="@anim/layout_bottom_to_top_slide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@android:color/white"
+        android:dividerHeight="0dp"
+        android:paddingTop="60dp">
+    </ListView>
+
+</RelativeLayout>

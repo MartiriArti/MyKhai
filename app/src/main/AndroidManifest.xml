@@ -24,11 +24,12 @@
         <activity android:name=".ExtraBallTableActivity">
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable">
-            </meta-data>
+                android:resource="@xml/searchable"/>
         </activity>
         <activity android:name=".SchedulerActivity" />
-        <activity android:name=".OnlineVoteActivity"></activity>
+        <activity android:name=".OnlineVoteActivity" />
+        <activity android:name=".DisciplineActivity"
+            android:label="Дисципліни"/>
     </application>
 
 </manifest>

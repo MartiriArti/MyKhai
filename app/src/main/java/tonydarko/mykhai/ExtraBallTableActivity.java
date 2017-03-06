@@ -29,6 +29,7 @@ import java.util.concurrent.ExecutionException;
 import tonydarko.mykhai.Adapters.ExtraBallAdapter;
 import tonydarko.mykhai.Items.ExtraBallItem;
 import tonydarko.mykhai.Parsers.ExtraParser;
+import tonydarko.mykhai.Utils.Cache;
 
 public class ExtraBallTableActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -47,10 +48,12 @@ public class ExtraBallTableActivity extends AppCompatActivity implements SearchV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_extra_ball);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         setTitle("Додаткові бали");
+
         Intent intent = getIntent();
         url = intent.getStringExtra("URL");
 
@@ -58,9 +61,9 @@ public class ExtraBallTableActivity extends AppCompatActivity implements SearchV
 
         info = (TextView) findViewById(R.id.inform);
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Title");
-        progressDialog.setMessage("Message");
+        /*progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Загрузка страницы");
+        progressDialog.setMessage("Парсинг");
         // меняем стиль на индикатор
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         // устанавливаем максимум
@@ -75,6 +78,7 @@ public class ExtraBallTableActivity extends AppCompatActivity implements SearchV
                 progressDialog.setIndeterminate(false);
                 if (progressDialog.getProgress() < progressDialog.getMax()) {
                     // увеличиваем значения индикаторов
+                    if (progressDialog.getProgress()== 700)   progressDialog.setMessage("Парсинг");
                     progressDialog.incrementProgressBy(60);
                     progressDialog.incrementSecondaryProgressBy(75);
                     handler.sendEmptyMessageDelayed(0, 100);
@@ -84,13 +88,13 @@ public class ExtraBallTableActivity extends AppCompatActivity implements SearchV
             }
         };
         handler.sendEmptyMessageDelayed(0, 2000);
-
+*/
         ExtraParser parser = new ExtraParser(url);
         parser.execute();
         try {
             parser.get();
-          data = parser.getData();
-           newTableFinal = parser.getNewTableFinal();
+            data = Cache.getData();
+            newTableFinal = Cache.getNewTableFinal();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }

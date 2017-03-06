@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import tonydarko.mykhai.Items.ExtraBallItem;
+import tonydarko.mykhai.Utils.Cache;
 
 public class ExtraParser extends AsyncTask<String, Void, HashMap<String, String>> {
     Elements title;
@@ -23,14 +24,6 @@ public class ExtraParser extends AsyncTask<String, Void, HashMap<String, String>
 
    public ExtraParser(String url){
         this.url = url;
-    }
-
-    public String[][] getNewTableFinal() {
-        return newTableFinal;
-    }
-
-    public ArrayList<ExtraBallItem> getData() {
-        return data;
     }
 
     @Override
@@ -57,7 +50,6 @@ public class ExtraParser extends AsyncTask<String, Void, HashMap<String, String>
             e.printStackTrace();
         }
         afterParsing();
-
         return hashMap;
     }
 
@@ -71,5 +63,7 @@ public class ExtraParser extends AsyncTask<String, Void, HashMap<String, String>
                     newTableFinal[i][6]));//ball
 
         }
+        Cache.setNewTableFinal(newTableFinal);
+        Cache.setData(data);
     }
 }
