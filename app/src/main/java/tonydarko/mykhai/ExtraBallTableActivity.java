@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -24,12 +22,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.concurrent.ExecutionException;
 
 import tonydarko.mykhai.Adapters.ExtraBallAdapter;
 import tonydarko.mykhai.Items.ExtraBallItem;
-import tonydarko.mykhai.Parsers.ExtraParser;
-import tonydarko.mykhai.Utils.Cache;
 
 public class ExtraBallTableActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -37,12 +32,12 @@ public class ExtraBallTableActivity extends AppCompatActivity implements SearchV
     private SearchView mSearchView;
     private MenuItem searchMenuItem;
     String url;
+    int t = 0;
     ExtraBallAdapter extraBallAdapter;
     ListView lv;
     ArrayList<ExtraBallItem> data = new ArrayList<>();
     String[][] newTableFinal;
     TextView info;
-    Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,37 +56,45 @@ public class ExtraBallTableActivity extends AppCompatActivity implements SearchV
 
         info = (TextView) findViewById(R.id.inform);
 
-        new checkAuth().execute();
+        new ParserBigData().execute();
 
     }
 
-    private class checkAuth extends AsyncTask<String, Void, Void> {
+    private class ParserBigData extends AsyncTask<String, Integer, Void> {
         Elements title;
         HashMap<String, String> hashMap = new LinkedHashMap<>();
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = ProgressDialog.show(ExtraBallTableActivity.this,
-                    "Ожидайте", "Выполняю соединение с ресурсом...", true, false);
+            progressDialog = new ProgressDialog(ExtraBallTableActivity.this);
+            progressDialog.setTitle("Загрузка страницы");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setIndeterminate(true);
+            progressDialog.show();
         }
 
         @Override
-        protected Void doInBackground(String... blockRega) {
+        protected Void doInBackground(String... block) {
             Document doc;
+            progressDialog.setMessage("Получение данных");
+            progressDialog.setIndeterminate(false);
             try {
                 doc = Jsoup
                         .connect(url)
                         .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2")
-                        .referrer("http://google.com").timeout(1000 * 5)
+                        .referrer("http://google.com")
+                        .timeout(1000 * 8)
                         .ignoreContentType(true).get();
 
                 title = doc.select("tr");
-                int t = 0;
                 newTableFinal = new String[title.size()][];
+                progressDialog.setMax(newTableFinal.length);
                 for (Element titles : title) {
                     hashMap.put(titles.text(), titles.attr("td"));
                     Elements trs = titles.select("tr");
                     for (int i = 0; i < trs.size(); i++) {
+                        progressDialog.setProgress(t);
                         Elements tds = trs.get(i).select("td");
                         newTableFinal[t] = new String[tds.size()];
                         for (int j = 0; j < tds.size(); j++) {
@@ -111,7 +114,6 @@ public class ExtraBallTableActivity extends AppCompatActivity implements SearchV
                         newTableFinal[i][2], //fio
                         newTableFinal[i][5],//full ball
                         newTableFinal[i][6]));//ball
-
             }
             return null;
         }

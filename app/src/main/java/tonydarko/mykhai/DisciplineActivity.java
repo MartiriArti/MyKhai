@@ -52,10 +52,7 @@ public class DisciplineActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         url = intent.getStringExtra("URL");
-
-        //infos = new String[3];
-       // warning = (TextView) findViewById(R.id.informDiscipline);
-       // danger = (TextView) findViewById(R.id.dangerDiscipline);
+        
         lv = (ListView) findViewById(R.id.listViewDiscipline);
 
         ParseTable parseTable = new ParseTable();
@@ -93,53 +90,6 @@ public class DisciplineActivity extends AppCompatActivity {
                     t++;
                 }
 
-                Map<String, String> loginCookies;
-
-                  /*  Connection.Response res = Jsoup
-                            .connect("http://my.khai.edu/my/discipline")
-                            .method(Connection.Method.GET)
-                            .execute();
-                    loginCookies = res.cookies();//заныкали на буд. куки
-                    Document doc1 = res.parse();
-                    Elements token = doc1.select("[name^=_csrf]");//подняли из парсера token
-
-                System.out.println("Token" + token.text());
-                System.out.println(doc1.body().html());
-
-                Connection.Response res_toc = Jsoup.connect("http://my.khai.edu/my/discipline")
-                        .data("token", token.toString())
-                        .cookies(loginCookies)
-                        .method(Connection.Method.POST)
-                        .execute();
-                Element body = res_toc.parse().body();// вдруг опять чего нибудь "парсануть" придется
-                Document doc2 = Jsoup
-                        .connect("http://my.khai.edu/my/discipline")
-                        .userAgent(userAgent)
-                        .get();
-
-                String csrf = doc2.getElementsByTag("input").text();
-
-                System.out.println("SCRF " + csrf);
-
-                Connection.Response res = Jsoup.connect("http://my.khai.edu/my/discipline")
-                        .userAgent(userAgent)
-                        //.method(Connection.Method.POST)
-                        .data("disciplineName", "4")
-                        .referrer("http://my.khai.edu/my/discipline")
-                        .execute();
-
-                Map<String, String> cookies = res.cookies();
-                cookies.put("_csrf", csrf);
-                System.out.println(cookies.toString());
-                Document doc3 = Jsoup
-                        .connect("http://my.khai.edu/my/discipline")
-                        .userAgent(userAgent)
-                        .cookies(cookies)
-                        .get();
-
-               String s = doc3.html();
-                System.out.println("HTML|||||||||||||||||" + "\n"+s);
-*/
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -1,5 +1,6 @@
 package tonydarko.mykhai;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,16 +18,11 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.concurrent.ExecutionException;
 
-import tonydarko.mykhai.Adapters.ExtraBallAdapter;
 import tonydarko.mykhai.Adapters.OnlineVoteAdapter;
-import tonydarko.mykhai.Items.ExtraBallItem;
 import tonydarko.mykhai.Items.OnlineVoteItem;
-import tonydarko.mykhai.R;
 
 public class OnlineVoteActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -39,6 +34,7 @@ public class OnlineVoteActivity extends AppCompatActivity implements SearchView.
     private ListView lv;
     private ArrayList<OnlineVoteItem> data = new ArrayList<>();
     String[][] newTableFinal;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,26 +50,7 @@ public class OnlineVoteActivity extends AppCompatActivity implements SearchView.
 
         lv = (ListView) findViewById(R.id.listViewVote);
 
-
-        ParseTable parseTable = new ParseTable();
-        parseTable.execute();
-
-        try {
-            final HashMap<String, String> hashMap = parseTable.get();
-            for (int i = 1; i < newTableFinal.length; i++) {
-                data.add(new OnlineVoteItem(
-                        newTableFinal[i][0],//num zayava
-                        newTableFinal[i][2],//fio student
-                        newTableFinal[i][3],//fio prepod
-                        newTableFinal[i][4],//predmet
-                        newTableFinal[i][5],//group
-                        newTableFinal[i][6]));//date
-            }
-            adapter = new OnlineVoteAdapter(this, data);
-            lv.setAdapter(adapter);
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+        new ParserBigData().execute();
 
     }
 
@@ -97,21 +74,43 @@ public class OnlineVoteActivity extends AppCompatActivity implements SearchView.
         return false;
     }
 
-    public class ParseTable extends AsyncTask<String, Void, HashMap<String, String>> {
+    private class ParserBigData extends AsyncTask<String, Integer, Void> {
+        Elements title;
         HashMap<String, String> hashMap = new LinkedHashMap<>();
 
         @Override
-        protected HashMap<String, String> doInBackground(String... arg) {
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(OnlineVoteActivity.this);
+            progressDialog.setTitle("Загрузка страницы");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setIndeterminate(true);
+            progressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(String... block) {
             Document doc;
+            progressDialog.setMessage("Получение данных");
+            progressDialog.setIndeterminate(false);
             try {
-                doc = Jsoup.connect(url).get();
+                doc = Jsoup
+                        .connect(url)
+                        .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2")
+                        .referrer("http://google.com")
+                        .timeout(1000 * 8)
+                        .ignoreContentType(true).get();
+
                 title = doc.select("tr");
+                newTableFinal = new String[title.size()][];
+                progressDialog.setMax(newTableFinal.length);
                 int t = 0;
                 newTableFinal = new String[title.size()][];
                 for (Element titles : title) {
                     hashMap.put(titles.text(), titles.attr("td"));
                     Elements trs = titles.select("tr");
                     for (int i = 0; i < trs.size(); i++) {
+                        progressDialog.setProgress(t);
                         Elements tds = trs.get(i).select("td");
                         newTableFinal[t] = new String[tds.size()];
                         for (int j = 0; j < tds.size(); j++) {
@@ -123,7 +122,28 @@ public class OnlineVoteActivity extends AppCompatActivity implements SearchView.
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return hashMap;
+
+            for (int i = 1; i < newTableFinal.length; i++) {
+                data.add(new OnlineVoteItem(
+                        newTableFinal[i][0],//num zayava
+                        newTableFinal[i][2],//fio student
+                        newTableFinal[i][3],//fio prepod
+                        newTableFinal[i][4],//predmet
+                        newTableFinal[i][5],//group
+                        newTableFinal[i][6]));//date
+            }
+            return null;
         }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+
+            adapter = new OnlineVoteAdapter(OnlineVoteActivity.this, data);
+            adapter.notifyDataSetChanged();
+            lv.setAdapter(adapter);
+        }
+
     }
 }
