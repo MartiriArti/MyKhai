@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">MyKhai</string>
+    <string name="login_tv_loz">Знання, якi пiдкорюють небо</string>
+    <string name="login_ti_login">Введіть логін</string>
+    <string name="login_ti_pass">Введіть пароль</string>
+    <string name="ogin_no_reg_btn">Публічна інформація</string>
+    <string name="login_login_empty">Логін порожній</string>
+    <string name="login_login_large">Неприпустима довжина логіна</string>
+    <string name="login_pass_empty">Пароль порожній</string>
+    <string name="login_pass_large">Неприпустима довжина пароля</string>
+    <string name="login_no_intenet">Немає підключення до Інтернету</string>
 </resources>

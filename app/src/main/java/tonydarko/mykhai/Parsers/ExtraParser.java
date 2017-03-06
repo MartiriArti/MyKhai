@@ -1,5 +1,7 @@
 package tonydarko.mykhai.Parsers;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import org.jsoup.Jsoup;
@@ -15,22 +17,28 @@ import java.util.LinkedHashMap;
 import tonydarko.mykhai.Items.ExtraBallItem;
 import tonydarko.mykhai.Utils.Cache;
 
-public class ExtraParser extends AsyncTask<String, Void, HashMap<String, String>> {
+public class ExtraParser extends AsyncTask<String, Integer, String[][]> {
     Elements title;
     HashMap<String, String> hashMap = new LinkedHashMap<>();
     ArrayList<ExtraBallItem> data = new ArrayList<>();
     String url;
     String[][] newTableFinal;
+    Context context;
 
-   public ExtraParser(String url){
+   public ExtraParser(String url, Context context){
+       this.context = context;
         this.url = url;
     }
 
     @Override
-    protected HashMap<String, String> doInBackground(String... arg) {
+    protected String[][] doInBackground(String... arg) {
         Document doc;
         try {
-            doc = Jsoup.connect(url).get();
+            doc = Jsoup
+                    .connect(url)
+                    .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2")
+                    .get();
+
             title = doc.select("tr");
             int t = 0;
             newTableFinal = new String[title.size()][];
@@ -49,11 +57,7 @@ public class ExtraParser extends AsyncTask<String, Void, HashMap<String, String>
         } catch (IOException e) {
             e.printStackTrace();
         }
-        afterParsing();
-        return hashMap;
-    }
 
-    public void afterParsing() {
         for (int i = 2; i < newTableFinal.length; i++) {
             newTableFinal[i][2] += " " + newTableFinal[i][3] + " " + newTableFinal[i][4];
             data.add(new ExtraBallItem(
@@ -63,7 +67,14 @@ public class ExtraParser extends AsyncTask<String, Void, HashMap<String, String>
                     newTableFinal[i][6]));//ball
 
         }
+
         Cache.setNewTableFinal(newTableFinal);
+        System.out.println("Chase MTF" + newTableFinal.length);
         Cache.setData(data);
+        System.out.println("DATA " + data);
+
+        return newTableFinal;
     }
+
+
 }

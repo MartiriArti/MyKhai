@@ -2,30 +2,12 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/discipline_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="tonydarko.mykhai.DisciplineActivity">
+    tools:context="tonydarko.mykhai.MainActivity">
 
     <include layout="@xml/toolbar" />
-
-    <TextView
-
-        android:id="@+id/informDiscipline"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/dangerDiscipline"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textSize="16sp" />
 
     <ListView
         android:id="@+id/listViewDiscipline"

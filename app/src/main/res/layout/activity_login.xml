@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/students"
@@ -41,7 +43,7 @@
                 android:background="@color/cardview_light_background"
                 android:gravity="center"
                 android:paddingBottom="5dp"
-                android:text="Знання, якi пiдкорюють небо"
+                android:text="@string/login_tv_loz"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="22sp" />
 
@@ -64,7 +66,7 @@
                     android:id="@+id/login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Введите логин"
+                    android:hint="@string/login_ti_login"
                     android:textColor="@color/colorPrimary" />
 
             </android.support.design.widget.TextInputLayout>
@@ -92,7 +94,7 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Введите пароль"
+                    android:hint="@string/login_ti_pass"
                     android:inputType="textPassword"
                     android:textColor="@color/colorPrimary" />
 
@@ -121,7 +123,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:background="@color/khaiBlue"
-        android:text="Публичная информация"
+        android:text="@string/ogin_no_reg_btn"
         android:textColor="@android:color/white" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -61,49 +61,74 @@ public class ExtraBallTableActivity extends AppCompatActivity implements SearchV
 
         info = (TextView) findViewById(R.id.inform);
 
-        /*progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Загрузка страницы");
-        progressDialog.setMessage("Парсинг");
-        // меняем стиль на индикатор
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        // устанавливаем максимум
-        progressDialog.setMax(1407);
-        // включаем анимацию ожидания
-        progressDialog.setIndeterminate(true);
-        progressDialog.show();
+        new checkAuth().execute();
 
-        handler = new Handler() {
-            public void handleMessage(Message msg) {
-                // выключаем анимацию ожидания
-                progressDialog.setIndeterminate(false);
-                if (progressDialog.getProgress() < progressDialog.getMax()) {
-                    // увеличиваем значения индикаторов
-                    if (progressDialog.getProgress()== 700)   progressDialog.setMessage("Парсинг");
-                    progressDialog.incrementProgressBy(60);
-                    progressDialog.incrementSecondaryProgressBy(75);
-                    handler.sendEmptyMessageDelayed(0, 100);
-                } else {
-                    progressDialog.dismiss();
-                }
-            }
-        };
-        handler.sendEmptyMessageDelayed(0, 2000);
-*/
-        ExtraParser parser = new ExtraParser(url);
-        parser.execute();
-        try {
-            parser.get();
-            data = Cache.getData();
-            newTableFinal = Cache.getNewTableFinal();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+    }
+
+    private class checkAuth extends AsyncTask<String, Void, Void> {
+        Elements title;
+        HashMap<String, String> hashMap = new LinkedHashMap<>();
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = ProgressDialog.show(ExtraBallTableActivity.this,
+                    "Ожидайте", "Выполняю соединение с ресурсом...", true, false);
         }
-        info.setText(newTableFinal[0][0]);//info message
 
-        extraBallAdapter = new ExtraBallAdapter(this, data);
-        extraBallAdapter.notifyDataSetChanged();
+        @Override
+        protected Void doInBackground(String... blockRega) {
+            Document doc;
+            try {
+                doc = Jsoup
+                        .connect(url)
+                        .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2")
+                        .referrer("http://google.com").timeout(1000 * 5)
+                        .ignoreContentType(true).get();
 
-        lv.setAdapter(extraBallAdapter);
+                title = doc.select("tr");
+                int t = 0;
+                newTableFinal = new String[title.size()][];
+                for (Element titles : title) {
+                    hashMap.put(titles.text(), titles.attr("td"));
+                    Elements trs = titles.select("tr");
+                    for (int i = 0; i < trs.size(); i++) {
+                        Elements tds = trs.get(i).select("td");
+                        newTableFinal[t] = new String[tds.size()];
+                        for (int j = 0; j < tds.size(); j++) {
+                            newTableFinal[t][j] = tds.get(j).text();
+                        }
+                    }
+                    t++;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            for (int i = 2; i < newTableFinal.length; i++) {
+                newTableFinal[i][2] += " " + newTableFinal[i][3] + " " + newTableFinal[i][4];
+                data.add(new ExtraBallItem(
+                        newTableFinal[i][1],//group
+                        newTableFinal[i][2], //fio
+                        newTableFinal[i][5],//full ball
+                        newTableFinal[i][6]));//ball
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+
+            info.setText(newTableFinal[0][0]);//info message
+
+            extraBallAdapter = new ExtraBallAdapter(ExtraBallTableActivity.this, data);
+            extraBallAdapter.notifyDataSetChanged();
+
+            lv.setAdapter(extraBallAdapter);
+        }
+
     }
 
     @Override

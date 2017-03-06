@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     LoginActivity.this.finish();
                 } else {
-                    Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.login_no_intenet, Toast.LENGTH_LONG).show();
                 }
                 break;
 
@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         Toast.makeText(this, "Логин или пароль пуст", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, R.string.login_no_intenet, Toast.LENGTH_LONG).show();
                     }
                     break;
                 }
@@ -102,14 +102,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.length() == 0) {
                     btn.setEnabled(false);
-                    inputLogin.setError("Логин пуст");
+                    inputLogin.setError(getString(R.string.login_login_empty));
                 } else if (charSequence.length() != 0) {
                     btn.setEnabled(true);
                     inputLogin.setErrorEnabled(false);
                 }
                 if (charSequence.length() >= 14) {
                     btn.setEnabled(false);
-                    inputLogin.setError("Не допустимая длина логина");
+                    inputLogin.setError(getString(R.string.login_login_large));
                 }
             }
 
@@ -127,14 +127,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.length() == 0) {
                     btn.setEnabled(false);
-                    inputPass.setError("Пароль пуст");
+                    inputPass.setError(getString(R.string.login_pass_empty));
                 } else if (charSequence.length() != 0) {
                     btn.setEnabled(true);
                     inputPass.setErrorEnabled(false);
                 }
                 if (charSequence.length() >= 14) {
                     btn.setEnabled(false);
-                    inputPass.setError("Не допустимая длина пароля");
+                    inputPass.setError(getString(R.string.login_pass_large));
                 }
             }
 
