@@ -147,7 +147,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 e.printStackTrace();
             }
 
-            Document doc3 = null;
+         /*   Document doc3 = null;
             try {
                 doc3 = Jsoup.connect("http://my.khai.edu/my/student_rating")
                         .referrer("http://www.google.com")
@@ -157,7 +157,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 e.printStackTrace();
             }
             System.out.println(doc3.body());
-
+*/
+            Constant.setCommon(common);
             Constant.setToken(token);
             System.out.println(common + " Log act");
             Constant.setMyLogin(myLogin);

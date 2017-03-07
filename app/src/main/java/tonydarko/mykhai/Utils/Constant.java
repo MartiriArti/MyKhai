@@ -6,6 +6,17 @@ import java.util.Map;
 public class Constant {
 
     public static String token;
+    public static  Map<String, String> common;
+
+    public static Map<String, String> getCommon() {
+        return common;
+    }
+
+    public static void setCommon(Map<String, String> common) {
+        System.out.println("Common" + common);
+        Constant.common = common;
+    }
+
     final static String url = "http://my.khai.edu/my/login";
     static String MyLogin = "martishkov_a";
     static String MyPassword = "ant641448";
