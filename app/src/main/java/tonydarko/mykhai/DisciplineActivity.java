@@ -29,7 +29,10 @@ import tonydarko.mykhai.Items.OnlineVoteItem;
 
 public class DisciplineActivity extends AppCompatActivity {
 
-    private static String userAgent = "Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36";
+   // final static String URL = "http://my.khai.edu/my/login";
+    final static String MyLogin = "martishkov_a";
+    final static String MyPassword = "ant641448";
+    private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0";
 
     TextView danger, warning;
     String url;
@@ -52,7 +55,7 @@ public class DisciplineActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         url = intent.getStringExtra("URL");
-        
+
         lv = (ListView) findViewById(R.id.listViewDiscipline);
 
         ParseTable parseTable = new ParseTable();
@@ -96,4 +99,4 @@ public class DisciplineActivity extends AppCompatActivity {
             return hashMap;
         }
     }
-}
+    }

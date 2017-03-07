@@ -60,7 +60,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Intent intent;
         switch (pos) {
             case 0:
-                Toast.makeText(this, "Еще в разработке!", Toast.LENGTH_SHORT).show();
+                intent = new Intent(this, BallStudentActivity.class);
+                intent.putExtra("URL", urls.get(pos));
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
             case 1:
                 intent = new Intent(this, ExtraBallTableActivity.class);
@@ -69,7 +72,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
             case 2:
-                Toast.makeText(this, "Еще в разработке!", Toast.LENGTH_SHORT).show();
+                intent = new Intent(this, RatingActivity.class);
+                intent.putExtra("URL", urls.get(pos));
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
             case 3:
                 intent = new Intent(this, DisciplineActivity.class);
