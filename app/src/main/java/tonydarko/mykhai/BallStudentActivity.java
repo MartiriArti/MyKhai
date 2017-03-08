@@ -128,7 +128,6 @@ public class BallStudentActivity extends AppCompatActivity {
                 }
                 t++;
             }
-            System.out.println(Arrays.deepToString(newTableFinal));
             return null;
         }
 

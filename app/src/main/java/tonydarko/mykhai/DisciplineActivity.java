@@ -92,7 +92,6 @@ public class DisciplineActivity extends AppCompatActivity {
                     newTableFinal[t] = titles.text();
                     t++;
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }

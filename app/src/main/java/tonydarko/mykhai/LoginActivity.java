@@ -31,6 +31,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Map<String, String> common;
     FloatingActionButton btn;
     Button noRegBtn;
+    int statusCode;
     String myLogin, myPassword;
     TextInputLayout inputLogin, inputPass;
     TextInputEditText login, pass;
@@ -76,17 +77,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.btn:
                 if (NetworkStatusChecker.isNetworkAvailable(LoginActivity.this)) {
-                    myLogin = inputLogin.getEditText().toString();
-                    System.out.println(myLogin + "|||||||||||");
-                    System.out.println(myPassword+"|||||||||||||||");
-                    myPassword = inputPass.getEditText().toString();
+                    myLogin = login.getText().toString();
+                    myPassword = pass.getText().toString();
+                    System.out.println(myLogin);
+                    System.out.println(myPassword);
+
                     if (myLogin.length() != 0 & myPassword.length() != 0) {
                         new ParserToken().execute();
-                        LoginActivity.this.startActivity(mainIntent);
-                        startActivity(mainIntent);
-                        overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                        LoginActivity.this.finish();
-
+                        if (statusCode == 200) {
+                            LoginActivity.this.startActivity(mainIntent);
+                            startActivity(mainIntent);
+                            overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                            LoginActivity.this.finish();
+                        }else {
+                            Toast.makeText(this, "Логин или пароль не верны", Toast.LENGTH_LONG).show();
+                        }
                     } else {
                         Toast.makeText(this, "Логин или пароль пуст", Toast.LENGTH_LONG).show();
                     }
@@ -121,8 +126,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("|||||||||||||||||||| " + token);
-
 
             // Упаковываю все в пост и отправляю
             Connection.Response resp2 = null;
@@ -130,37 +133,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 resp2 = Jsoup.connect(Constant.getUrl())
                         .referrer("http://www.google.com")
                         .userAgent(Constant.getUserAgent())
-                        .data("username", "martishkov_a")
-                        .data("password", "ant641448")
+                        .data("username", myLogin)
+                        .data("password", myPassword)
                         .data("_csrf", token)
                         .cookies(resp1.cookies())
                         .method(Connection.Method.POST).timeout(10000).execute();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+           statusCode = resp2.statusCode();
+            System.out.println(resp2.statusCode());
+            System.out.println(resp2.statusMessage());
 
             common = resp2.cookies();
-            System.out.println(resp2.cookies());
-            try {
-                System.out.println(resp2.parse().title() + " " + token);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
-         /*   Document doc3 = null;
-            try {
-                doc3 = Jsoup.connect("http://my.khai.edu/my/student_rating")
-                        .referrer("http://www.google.com")
-                        .userAgent(Constant.getUserAgent())
-                        .cookies(common).timeout(10000).get();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.out.println(doc3.body());
-*/
             Constant.setCommon(common);
             Constant.setToken(token);
-            System.out.println(common + " Log act");
+
             Constant.setMyLogin(myLogin);
             Constant.setMyPassword(myPassword);
             return null;

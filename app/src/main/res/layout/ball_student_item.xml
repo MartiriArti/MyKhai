@@ -16,6 +16,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:textColor="@android:color/black"
             android:id="@+id/subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,6 +34,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:textColor="@android:color/black"
                     android:textAlignment="textStart"
                     android:textStyle="bold"
                     android:layout_width="match_parent"
@@ -43,6 +45,7 @@
                     android:text="Оцінка:" />
 
                 <TextView
+                    android:textColor="@android:color/black"
                     android:textAlignment="textStart"
                     android:id="@+id/otcenka"
                     android:layout_width="match_parent"
@@ -59,6 +62,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:textColor="@android:color/black"
                     android:textAlignment="textStart"
                     android:textStyle="bold"
                     android:layout_width="match_parent"
@@ -69,6 +73,7 @@
                     android:text="Бал:" />
 
                 <TextView
+                    android:textColor="@android:color/black"
                     android:textAlignment="textStart"
                     android:id="@+id/ball_student"
                     android:layout_width="match_parent"
@@ -85,6 +90,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:textColor="@android:color/black"
                     android:textAlignment="textStart"
                     android:textStyle="bold"
                     android:layout_width="match_parent"
@@ -95,6 +101,7 @@
                     android:text="ESTC:" />
 
                 <TextView
+                    android:textColor="@android:color/black"
                     android:textAlignment="textStart"
                     android:id="@+id/tv_esct"
                     android:layout_width="match_parent"
@@ -111,6 +118,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:textColor="@android:color/black"
                     android:textAlignment="textStart"
                     android:textStyle="bold"
                     android:layout_width="match_parent"
@@ -121,6 +129,7 @@
                     android:text="Форма контролю:" />
 
                 <TextView
+                    android:textColor="@android:color/black"
                     android:textAlignment="textStart"
                     android:id="@+id/tv_form_ctrl"
                     android:layout_width="match_parent"
