@@ -15,8 +15,10 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+import tonydarko.mykhai.Utils.Constant;
 
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+    Boolean noOrYes;
     public Elements title;
     private ArrayList<String> urls;
     private ListView lv;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         toolbar.setLogo(R.mipmap.logo);
 
         lv = (ListView) findViewById(R.id.listView1);
-
+        noOrYes = Constant.getNoOrYes();
         final ArrayList<String> arrayList = new ArrayList<>();
 
         urls.add("http://my.khai.edu/my/student_marks");
@@ -60,10 +62,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Intent intent;
         switch (pos) {
             case 0:
-                intent = new Intent(this, BallStudentActivity.class);
-                intent.putExtra("URL", urls.get(pos));
-                startActivity(intent);
-                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                if (noOrYes) {
+                    intent = new Intent(this, BallStudentActivity.class);
+                    intent.putExtra("URL", urls.get(pos));
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                }else {
+                    Toast.makeText(this, "Вход не выполнен", Toast.LENGTH_LONG).show();
+                }
                 break;
             case 1:
                 intent = new Intent(this, ExtraBallTableActivity.class);
@@ -72,10 +78,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
             case 2:
-                intent = new Intent(this, RatingActivity.class);
-                intent.putExtra("URL", urls.get(pos));
-                startActivity(intent);
-                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                if (noOrYes) {
+                    intent = new Intent(this, RatingActivity.class);
+                    intent.putExtra("URL", urls.get(pos));
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                } else {
+                    Toast.makeText(this, "Вход не выполнен", Toast.LENGTH_LONG).show();
+                }
                 break;
             case 3:
                 intent = new Intent(this, DisciplineActivity.class);

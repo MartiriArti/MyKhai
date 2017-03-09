@@ -20,8 +20,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import tonydarko.mykhai.Utils.Constant;
 import tonydarko.mykhai.Utils.NetworkStatusChecker;
@@ -29,8 +29,10 @@ import tonydarko.mykhai.Utils.NetworkStatusChecker;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
+    ParserToken parserToken;
     ProgressDialog progressDialog;
-    String info = "";
+    Boolean noOrYes = false;
+    static String info = "";
     Map<String, String> common;
     FloatingActionButton btn;
     Button noRegBtn;
@@ -68,6 +70,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.no_reg_btn:
+                noOrYes = false;
+                Constant.setNoOrYes(noOrYes);
                 if (NetworkStatusChecker.isNetworkAvailable(LoginActivity.this)) {
                     LoginActivity.this.startActivity(mainIntent);
                     overridePendingTransition(R.anim.right_in, R.anim.left_out);
@@ -82,14 +86,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     myLogin = login.getText().toString();
                     myPassword = pass.getText().toString();
                     if (myLogin.length() != 0 & myPassword.length() != 0) {
-                        new ParserToken().execute();
-                        if (!Constant.getInfo().equals("")) {
-                            if (!Constant.getInfo().equals("")) {
-                                LoginActivity.this.startActivity(mainIntent);
-                                startActivity(mainIntent);
-                                overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                                LoginActivity.this.finish();
-                            }
+                        parserToken = new ParserToken();
+                        try {
+                            parserToken.execute().get();
+                        } catch (InterruptedException | ExecutionException e) {
+                            e.printStackTrace();
+                        }
+                        if (Constant.getInfo().length() != 0) {
+                            noOrYes = true;
+                            Constant.setNoOrYes(noOrYes);
+                            LoginActivity.this.startActivity(mainIntent);
+                            startActivity(mainIntent);
+                            overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                            LoginActivity.this.finish();
                         } else {
                             Toast.makeText(this, "Логин или пароль не верны", Toast.LENGTH_LONG).show();
                         }
@@ -101,20 +110,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public class ParserToken extends AsyncTask<String, Void, HashMap<String, String>> {
+    public class ParserToken extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(LoginActivity.this);
             progressDialog.setTitle("Отправка запроса");
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setIndeterminate(true);
             progressDialog.show();
         }
 
         @Override
-        protected HashMap<String, String> doInBackground(String... arg) {
+        protected String doInBackground(String... arg) {
             Connection.Response resp1 = null;
             try {
                 resp1 = Jsoup.connect(Constant.getUrl())
@@ -170,21 +179,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             for (Element clas : doc3.getElementsByClass("lead")) {
                 System.out.println(clas);
                 if (clas.text().startsWith("Шановний (а),")) {
                     info = clas.text();
                     System.out.println(info);
+                    Constant.setInfo(info);
                 }
             }
-            return null;
+            return info;
         }
 
         @Override
-        protected void onPostExecute(HashMap<String, String> stringStringHashMap) {
-            super.onPostExecute(stringStringHashMap);
-
-            Constant.setInfo(info);
+        protected void onPostExecute(String string) {
+            super.onPostExecute(string);
             progressDialog.dismiss();
 
         }

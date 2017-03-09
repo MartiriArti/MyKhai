@@ -111,7 +111,6 @@ public class BallStudentActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println(doc3.body());
             int t = 0;
             title = doc3.select("tr");
            newTableFinal = new String[title.size()][];

@@ -11,6 +11,15 @@ public class Constant {
     static String MyLogin = "";
     static String MyPassword = "";
     static String info = "";
+    static Boolean noOrYes;
+
+    public static Boolean getNoOrYes() {
+        return noOrYes;
+    }
+
+    public static void setNoOrYes(Boolean noOrYes) {
+        Constant.noOrYes = noOrYes;
+    }
 
     public static String getInfo() {
         return info;
