@@ -5,13 +5,13 @@ import java.util.Map;
 
 public class Constant {
 
-    public static String token;
-    public static  Map<String, String> common;
-    final static String url = "http://my.khai.edu/my/login";
-    static String MyLogin = "";
-    static String MyPassword = "";
-    static String info = "";
-    static Boolean noOrYes;
+    private static String token;
+    private static Map<String, String> common;
+    private final static String url = "http://my.khai.edu/my/login";
+    private static String MyLogin = "";
+    private static String MyPassword = "";
+    private static String info = "";
+    private static Boolean noOrYes;
 
     public static Boolean getNoOrYes() {
         return noOrYes;
@@ -37,9 +37,8 @@ public class Constant {
         Constant.danger = danger;
     }
 
-    static String danger = "";
+    private static String danger = "";
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0";
-
 
 
     public static Map<String, String> getCommon() {

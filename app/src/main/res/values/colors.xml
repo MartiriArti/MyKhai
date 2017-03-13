@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1976D2</color>
-    <color name="colorPrimaryDark">#1565c0</color>
-    <color name="colorAccent">#1E88E5</color>
+    <color name="colorPrimary">#1E88E5</color>
+    <color name="colorPrimaryDark">#1565C0</color>
+    <color name="colorAccent">#1976D2</color>
+    <color name="back">#ffffff</color>
     <color name="khaiBlue">#1976D2</color>
+    <color name="splashBack">#1976D2</color>
+    <color name="splashText">#B3E5FC</color>
 </resources>

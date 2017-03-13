@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">MyKhai</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="settings_splash">Settings screen!</string>
+
+    <string name="statistics_splash">Statistics screen!</string>
+    <string name="user_name" translatable="false">Anton Martishkov</string>
+
     <string name="login_tv_loz">Знання, якi пiдкорюють небо</string>
     <string name="login_ti_login">Введіть логін</string>
     <string name="login_ti_pass">Введіть пароль</string>
@@ -9,4 +16,17 @@
     <string name="login_pass_empty">Пароль порожній</string>
     <string name="login_pass_large">Неприпустима довжина пароля</string>
     <string name="login_no_intenet">Немає підключення до Інтернету</string>
+    <string name="title_activity_main_drawer">MainDrawerActivity</string>
+    <string name="title_activity_loggin">LogginActivity</string>
+    <string name="drawer_rating">Рейтинг на стипендію</string>
+    <string name="drawer_student_balls">Оцінки студента</string>
+    <string name="drawer_extra_balls">Додаткові бали</string>
+    <string name="drawer_subject">Вибір дисциплін</string>
+    <string name="drawer_online_vote">Онлайн вибір</string>
+    <string name="drawer_scheduller">Розклад занять за вибором</string>
+    <string name="drawer_tools">Налаштування</string>
+    <string name="drawer_exit">Вихід</string>
+    <string name="khai3">“ХАІ”</string>
+    <string name="khai2">М.Є. Жуковського</string>
+    <string name="khai1">Національний аерокосмічний університет ім.</string>
 </resources>

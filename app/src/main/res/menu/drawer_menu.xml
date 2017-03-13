@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <group android:id="@+id/grpPrivate" android:checkableBehavior="single" >
+            <item
+                android:id="@+id/drawer_rating"
+                android:title="@string/drawer_rating" />
+            <item
+                android:id="@+id/drawer_student_ball"
+                android:title="@string/drawer_student_balls"
+                />
+       </group>
+
+    <group android:id="@+id/grpPublic" android:checkableBehavior="single" >
+            <item
+                android:id="@+id/drawer_extra_ball"
+                android:title="@string/drawer_extra_balls" />
+            <item
+                android:id="@+id/drawer_vibir"
+                android:title="@string/drawer_subject"
+                />
+            <item
+                android:id="@+id/drawer_online_vote"
+                android:title="@string/drawer_online_vote"
+                />
+            <item
+                android:id="@+id/drawer_scheduler"
+                android:title="@string/drawer_scheduller"
+                />
+        </group>
+
+    <group android:id="@+id/grp2" android:checkableBehavior="single" >
+        <item
+            android:id="@+id/drawer_settings"
+            android:icon="@mipmap/ic_tune_black_48dp"
+            android:title="@string/drawer_tools"/>
+
+        <item
+            android:id="@+id/drawer_exit"
+            android:icon="@mipmap/ic_exit_to_app_black_48dp"
+            android:title="@string/drawer_exit" />
+    </group>
+</menu>
