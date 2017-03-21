@@ -12,31 +12,10 @@
     android:background="@color/splashBack"
     tools:context=".ui.SplashActivity">
 
-   <TextView
-       android:text="@string/khai1"
-       android:layout_width="match_parent"
-       android:textSize="32sp"
-       android:paddingTop="150dp"
-       android:gravity="center"
-       android:layout_gravity="bottom"
-       android:textColor="@color/splashText"
-       android:layout_height="wrap_content" />
 
-   <TextView
-       android:text="@string/khai2"
+   <ImageView
+       android:src="@mipmap/softkhai"
        android:layout_width="match_parent"
-       android:textSize="32sp"
-       android:gravity="center"
-       android:layout_gravity="bottom"
-       android:textColor="@color/splashText"
-       android:layout_height="wrap_content" />
+       android:layout_height="match_parent" />
 
-   <TextView
-       android:text="@string/khai3"
-       android:layout_width="match_parent"
-       android:textSize="32sp"
-       android:gravity="center"
-       android:layout_gravity="bottom"
-       android:textColor="@color/splashText"
-       android:layout_height="wrap_content" />
 </LinearLayout>

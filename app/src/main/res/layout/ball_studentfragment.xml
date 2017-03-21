@@ -5,15 +5,6 @@
     android:layout_height="match_parent"
     android:id="@+id/student_ball_coordinator">
 
-    <TextView
-        android:id="@+id/year"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textSize="16sp" />
-
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

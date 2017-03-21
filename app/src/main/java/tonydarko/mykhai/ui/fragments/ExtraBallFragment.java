@@ -1,10 +1,14 @@
 package tonydarko.mykhai.ui.fragments;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +30,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Objects;
 
 import tonydarko.mykhai.R;
 import tonydarko.mykhai.adapters.ExtraBallAdapter;
@@ -49,7 +54,6 @@ public class ExtraBallFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.extra_ball_fragment, container, false);
 
-        //  getActivity().setTitle("ExtraBallFragment");
         rootLayout = (CoordinatorLayout) rootView.findViewById(R.id.extra_ball_coordinator);
         setHasOptionsMenu(true);
 
@@ -80,8 +84,6 @@ public class ExtraBallFragment extends Fragment {
     private void initRecycleView(View view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.list_of_balls);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        // ExtraBallAdapter expensesAdapter = new ExtraBallAdapter(getExpenses());
-        //   recyclerView.setAdapter(expensesAdapter);
     }
 
     @Override
@@ -190,12 +192,12 @@ public class ExtraBallFragment extends Fragment {
             super.onPostExecute(result);
             progressDialog.dismiss();
 
-            //  info.setText(newTableFinal[0][0]);//info message
             extraBallAdapter = new ExtraBallAdapter(data);
             extraBallAdapter.notifyDataSetChanged();
-
             recyclerView.setAdapter(extraBallAdapter);
-
+            Snackbar.make(getView(), newTableFinal[0][0], Snackbar.LENGTH_INDEFINITE)
+                    .setActionTextColor(Color.RED)
+                    .show();
             newTableFinal = null;
             t = 0;
         }

@@ -24,6 +24,7 @@
         android:textSize="24sp" />
 
     <TextView
+        android:layout_marginLeft="10dp"
         android:id="@+id/tv_value"
         android:layout_weight="1"
         android:layout_width="match_parent"

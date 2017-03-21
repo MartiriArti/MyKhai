@@ -1,10 +1,12 @@
 package tonydarko.mykhai.ui.fragments;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,7 +37,6 @@ public class StudentBallsFragment extends Fragment {
     ProgressDialog progressDialog;
     private RecyclerView recyclerView;
     CoordinatorLayout rootLayout;
-    TextView year;
     int t = 0;
     ArrayList<BallStudentItem> data = new ArrayList<>();
     String url = "http://my.khai.edu/my/student_marks";
@@ -47,14 +48,12 @@ public class StudentBallsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.ball_studentfragment, container, false);
 
-      //  getActivity().setTitle("StudentBalls");
         rootLayout = (CoordinatorLayout) rootView.findViewById(R.id.student_ball_coordinator);
         setHasOptionsMenu(true);
-        year = (TextView) rootView.findViewById(R.id.year);
+
         if (data.size() == 0) {
             new ParserBigData().execute();
         } else {
-         //   year.setText("Навчальний рік: " + newTableFinal[1][6] + " Семестр: " + newTableFinal[1][7]);//info message
 
             studentBallsAdapter = new StudentBallsAdapter(data);
             studentBallsAdapter.notifyDataSetChanged();
@@ -68,11 +67,9 @@ public class StudentBallsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-       // year.setText("Навчальний рік: " + newTableFinal[1][6] + " Семестр: " + newTableFinal[1][7]);//info message
 
         studentBallsAdapter = new StudentBallsAdapter(data);
         studentBallsAdapter.notifyDataSetChanged();
-
         recyclerView.setAdapter(studentBallsAdapter);
     }
 
@@ -163,11 +160,14 @@ public class StudentBallsFragment extends Fragment {
                         newTableFinal[i][5]));//ball
             }
             progressDialog.dismiss();
-            year.setText("Навчальний рік: " + newTableFinal[1][6] + " Семестр: " + newTableFinal[1][7]);//info message
 
             studentBallsAdapter = new StudentBallsAdapter(data);
             studentBallsAdapter.notifyDataSetChanged();
-
+            Snackbar.make(rootLayout, "Навчальний рік: " +
+                    newTableFinal[1][6] + " Семестр: " +
+                    newTableFinal[1][7], Snackbar.LENGTH_INDEFINITE)
+                    .setActionTextColor(Color.RED)
+                    .show();
             recyclerView.setAdapter(studentBallsAdapter);
             t = 0;
         }

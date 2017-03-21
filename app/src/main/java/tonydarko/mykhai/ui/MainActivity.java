@@ -1,5 +1,7 @@
 package tonydarko.mykhai.ui;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -77,8 +80,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
 
-        } else if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            finish();
+        } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            MainActivity.this.finish();
         } else {
             super.onBackPressed();
         }
@@ -138,7 +141,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 replaceFragment(settingsFragment);
                 break;
             case R.id.drawer_exit:
-               finish();
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+                alertDialog.setTitle("Вийти?");
+
+                alertDialog.setMessage("Ви дійсно бажаете вийти?");
+
+                alertDialog.setPositiveButton("Так", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int which) {
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
+
+                alertDialog.setNegativeButton("Ні", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                alertDialog.show();
                 break;
         }
         return true;
