@@ -148,10 +148,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 alertDialog.setPositiveButton("Так", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int which) {
-                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        Intent intent = new Intent(MainActivity.this, LogginActivity.class);
                         intent.addCategory(Intent.CATEGORY_HOME);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
+                        MainActivity.this.finish();
                     }
                 });
 

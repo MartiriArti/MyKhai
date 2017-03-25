@@ -2,7 +2,10 @@ package tonydarko.mykhai.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +13,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -38,11 +43,13 @@ public class LogginActivity extends Activity implements View.OnClickListener {
     ParserToken parserToken;
     ProgressDialog progressDialog;
     Boolean noOrYes = false;
+    boolean displayNotifications = false;
     static String info = "";
     static String danger = "";
     Map<String, String> common;
     FloatingActionButton btn;
     Button noRegBtn;
+    SharedPreferences setting;
     String myLogin, myPassword;
     TextInputLayout inputLogin, inputPass;
     TextInputEditText login, pass;
@@ -69,7 +76,10 @@ public class LogginActivity extends Activity implements View.OnClickListener {
         networkStatusChecker = new NetworkStatusChecker();
 
         mainIntent = new Intent(this, MainActivity.class);
-
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String displayNotificationKey = this.getString(R.string.pref_enable_save_password);
+        displayNotifications = prefs.getBoolean(displayNotificationKey,
+                Boolean.parseBoolean(this.getString(R.string.pref_enable_save_password_default)));
         setInputText();
         noRegBtn.setOnClickListener(this);
         btn.setOnClickListener(this);
@@ -104,6 +114,15 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                         if (Constant.getInfo().length() != 0) {
                             noOrYes = true;
                             Constant.setNoOrYes(noOrYes);
+
+                            if (displayNotifications) {
+                                setting = getSharedPreferences("LogPass", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = setting.edit();
+                                editor.putString("Login", myLogin);
+                                editor.putString("Password", myPassword);
+                                System.out.println("Saved");
+                                editor.apply();
+                            }
                             LogginActivity.this.startActivity(mainIntent);
                             startActivity(mainIntent);
                             overridePendingTransition(R.anim.right_in, R.anim.left_out);
@@ -129,11 +148,11 @@ public class LogginActivity extends Activity implements View.OnClickListener {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(LogginActivity.this);
+            /*progressDialog = new ProgressDialog(LogginActivity.this);
             progressDialog.setTitle("Отправка запроса");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setIndeterminate(true);
-            progressDialog.show();
+            progressDialog.show();*/
         }
 
         @Override
@@ -211,7 +230,7 @@ public class LogginActivity extends Activity implements View.OnClickListener {
         @Override
         protected void onPostExecute(String string) {
             super.onPostExecute(string);
-            progressDialog.dismiss();
+          //  progressDialog.dismiss();
 
         }
     }
@@ -269,4 +288,29 @@ public class LogginActivity extends Activity implements View.OnClickListener {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(LogginActivity.this);
+        alertDialog.setTitle("Вийти?");
+
+        alertDialog.setMessage("Ви дійсно бажаете вийти?");
+
+        alertDialog.setPositiveButton("Так", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int which) {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                LogginActivity.this.finish();
+            }
+        });
+
+        alertDialog.setNegativeButton("Ні", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        alertDialog.show();
+    }
 }

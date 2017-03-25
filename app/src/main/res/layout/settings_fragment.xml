@@ -2,16 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/khaiBlue"
+    app:theme="@style/SettingsTheme"
     android:id="@+id/settings_root_layout">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/settings_splash"
-        android:gravity="center"
-        android:textSize="@dimen/settings_fragment_splash_text_size"
-        android:text="@string/settings_splash"/>
 
 </LinearLayout>
