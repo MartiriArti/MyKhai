@@ -39,9 +39,10 @@ public class SplashActivity extends Activity {
                 @Override
                 public void run() {
                     Intent mainIntent = new Intent(SplashActivity.this, LogginActivity.class);
-                    SplashActivity.this.startActivity(mainIntent);
                     overridePendingTransition(R.anim.bottom_in, R.anim.top_out);
+                    SplashActivity.this.startActivity(mainIntent);
                     SplashActivity.this.finish();
+
                 }
             }, 3000);
         }

@@ -108,6 +108,7 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                 if (NetworkStatusChecker.isNetworkAvailable(LogginActivity.this)) {
                     LogginActivity.this.startActivity(mainIntent);
                     overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                    LogginActivity.this.finish();
                 } else {
                     Toast.makeText(this, R.string.login_no_intenet, Toast.LENGTH_LONG).show();
                 }
@@ -139,6 +140,7 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                             LogginActivity.this.startActivity(mainIntent);
                             startActivity(mainIntent);
                             overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                            LogginActivity.this.finish();
                         } else {
                             Snackbar.make(findViewById(android.R.id.content), "Не вірний логін або пароль!", Snackbar.LENGTH_LONG)
                                     .setActionTextColor(Color.RED)
@@ -320,6 +322,7 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                  progressDialog.dismiss();
             LogginActivity.this.startActivity(mainIntent);
             overridePendingTransition(R.anim.right_in, R.anim.left_out);
+            LogginActivity.this.finish();
         }
     }
 

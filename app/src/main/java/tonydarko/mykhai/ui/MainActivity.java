@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawerLayout.closeDrawer(GravityCompat.START);
 
         } else if (getSupportFragmentManager().getBackStackEntryCount() <= 1) {
-            tv1.setVisibility(View.VISIBLE);
             allertDialogFunc();
         } else {
             super.onBackPressed();
@@ -233,8 +232,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (!fragmentPopped && manager.findFragmentByTag(backStackName) == null) {
             FragmentTransaction ft = manager.beginTransaction();
-            ft.replace(R.id.main_container, fragment, backStackName);
             ft.setCustomAnimations( R.anim.right_in, R.anim.left_out );
+            ft.replace(R.id.main_container, fragment, backStackName);
             ft.addToBackStack(backStackName);
             ft.commit();
         }
