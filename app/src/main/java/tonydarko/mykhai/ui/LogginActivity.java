@@ -86,6 +86,7 @@ public class LogginActivity extends Activity implements View.OnClickListener {
         noRegBtn.setOnClickListener(this);
         btn.setOnClickListener(this);
 
+        if (NetworkStatusChecker.isNetworkAvailable(LogginActivity.this)) {
         if (displayNotifications){
             setting = getSharedPreferences("LogPass", Context.MODE_PRIVATE);
             savedLogin = setting.getString("Login", "");
@@ -97,7 +98,11 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                             logginWithSaved.execute();
             }
         }
-    }
+    } else {
+            Snackbar.make(findViewById(android.R.id.content), R.string.login_no_intenet, Snackbar.LENGTH_LONG)
+                    .setActionTextColor(Color.RED)
+                    .show();
+    }}
 
     @Override
     public void onClick(View view) {
@@ -110,7 +115,9 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                     overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     LogginActivity.this.finish();
                 } else {
-                    Toast.makeText(this, R.string.login_no_intenet, Toast.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), R.string.login_no_intenet, Snackbar.LENGTH_LONG)
+                            .setActionTextColor(Color.RED)
+                            .show();
                 }
                 break;
 
