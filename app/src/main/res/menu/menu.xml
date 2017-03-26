@@ -3,7 +3,7 @@
     xmlns:yourapp="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_search"
-        android:title="@android:string/search_go"
+        android:title="Пошук"
         android:icon="@android:drawable/ic_menu_search"
         yourapp:showAsAction="ifRoom|collapseActionView"
         yourapp:actionViewClass="android.support.v7.widget.SearchView" />

@@ -87,7 +87,7 @@ public class StudentBallsFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setTitle("Загрузка страницы");
+            progressDialog.setTitle(getString(R.string.pre_exec_loading));
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.setIndeterminate(true);
             progressDialog.show();

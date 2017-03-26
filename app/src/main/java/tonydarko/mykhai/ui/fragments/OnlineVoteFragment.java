@@ -85,7 +85,7 @@ public class OnlineVoteFragment extends Fragment{
         searchMenuItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) searchMenuItem.getActionView();
 
-        searchView.setQueryHint("Search");
+        searchView.setQueryHint("Введіть: предмет, фамілію або групу");
     }
 
     @Override
@@ -114,7 +114,7 @@ public class OnlineVoteFragment extends Fragment{
         protected void onPreExecute() {
             super.onPreExecute();
            progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setTitle("Загрузка страницы");
+            progressDialog.setTitle(getString(R.string.pre_exec_loading));
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.setIndeterminate(true);
             progressDialog.show();
@@ -123,7 +123,7 @@ public class OnlineVoteFragment extends Fragment{
         @Override
         protected Void doInBackground(String... block) {
             Document doc;
-            progressDialog.setMessage("Получение данных");
+            progressDialog.setMessage(getString(R.string.pre_exec_get));
             progressDialog.setIndeterminate(false);
             try {
                 doc = Jsoup

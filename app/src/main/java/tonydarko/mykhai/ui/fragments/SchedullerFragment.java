@@ -49,9 +49,6 @@ public class SchedullerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.scheduller_fragment, container, false);
-
-        //  getActivity().setTitle("SchedullerFragment");
-
         rootLayout = (CoordinatorLayout) rootView.findViewById(R.id.scheduller_coordinator);
         setHasOptionsMenu(true);
         if (data.size() == 0) {
@@ -86,7 +83,7 @@ public class SchedullerFragment extends Fragment {
         searchMenuItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) searchMenuItem.getActionView();
 
-        searchView.setQueryHint("Search");
+        searchView.setQueryHint("Введіть: предмет, фамілію або групу");
     }
 
     @Override
@@ -115,7 +112,7 @@ public class SchedullerFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setTitle("Загрузка страницы");
+            progressDialog.setTitle(getString(R.string.pre_exec_loading));
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.setIndeterminate(true);
             progressDialog.show();
@@ -123,7 +120,7 @@ public class SchedullerFragment extends Fragment {
 
         @Override
         protected Void doInBackground(String... block) {
-            progressDialog.setMessage("Получение данных");
+            progressDialog.setMessage(getString(R.string.pre_exec_get));
             progressDialog.setIndeterminate(false);
             Document doc;
             try {

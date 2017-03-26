@@ -105,7 +105,7 @@ public class ExtraBallFragment extends Fragment {
         searchMenuItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) searchMenuItem.getActionView();
 
-        searchView.setQueryHint("Search");
+        searchView.setQueryHint("Введіть: групу або фамілію");
     }
 
     @Override
@@ -137,7 +137,7 @@ public class ExtraBallFragment extends Fragment {
                 progressDialog.dismiss();
             }
             progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setTitle("Загрузка страницы");
+            progressDialog.setTitle(getString(R.string.pre_exec_loading));
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.setIndeterminate(true);
             progressDialog.show();
@@ -146,7 +146,7 @@ public class ExtraBallFragment extends Fragment {
         @Override
         protected Void doInBackground(String... block) {
             Document doc;
-            progressDialog.setMessage("Получение данных");
+            progressDialog.setMessage(getString(R.string.pre_exec_get));
             progressDialog.setIndeterminate(false);
             try {
                 doc = Jsoup

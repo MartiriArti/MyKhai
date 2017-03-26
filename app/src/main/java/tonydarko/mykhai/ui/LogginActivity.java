@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -22,8 +21,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
-
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -37,7 +34,6 @@ import java.util.concurrent.ExecutionException;
 import tonydarko.mykhai.R;
 import tonydarko.mykhai.Utils.Constant;
 import tonydarko.mykhai.Utils.NetworkStatusChecker;
-
 
 public class LogginActivity extends Activity implements View.OnClickListener {
 
@@ -245,7 +241,7 @@ public class LogginActivity extends Activity implements View.OnClickListener {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(LogginActivity.this);
-            progressDialog.setTitle("Отправка запроса");
+            progressDialog.setTitle("Авторизація");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setIndeterminate(true);
             progressDialog.show();
