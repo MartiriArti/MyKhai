@@ -1,7 +1,9 @@
 package tonydarko.mykhai.ui;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,6 +38,7 @@ import tonydarko.mykhai.ui.fragments.StudentBallsFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    SharedPreferences setting;
     private Toolbar toolbar;
     Boolean noOrYes;
     TextView tv1, tv2, nameHead;
@@ -80,8 +83,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
 
-        } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            MainActivity.this.finish();
+        } else if (getSupportFragmentManager().getBackStackEntryCount() <= 1) {
+            tv1.setVisibility(View.VISIBLE);
+            allertDialogFunc();
         } else {
             super.onBackPressed();
         }
@@ -151,6 +155,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Intent intent = new Intent(MainActivity.this, LogginActivity.class);
                         intent.addCategory(Intent.CATEGORY_HOME);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        setting = getSharedPreferences("LogPass", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = setting.edit();
+                        editor.putString("Login", "");
+                        editor.putString("Password", "");
+                        System.out.println("Saved");
+                        editor.apply();
                         startActivity(intent);
                         MainActivity.this.finish();
                     }
@@ -166,6 +176,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
         return true;
+    }
+
+    public void allertDialogFunc(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+        alertDialog.setTitle("Вийти?");
+
+        alertDialog.setMessage("Ви дійсно бажаете вийти?");
+
+        alertDialog.setPositiveButton("Так", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int which) {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                MainActivity.this.finish();
+            }
+        });
+
+        alertDialog.setNegativeButton("Ні", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        alertDialog.show();
     }
 
     private void setActionBar() {

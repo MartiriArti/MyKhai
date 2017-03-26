@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -49,6 +50,7 @@ public class LogginActivity extends Activity implements View.OnClickListener {
     Map<String, String> common;
     FloatingActionButton btn;
     Button noRegBtn;
+    String savedLogin, savedPass;
     SharedPreferences setting;
     String myLogin, myPassword;
     TextInputLayout inputLogin, inputPass;
@@ -84,6 +86,17 @@ public class LogginActivity extends Activity implements View.OnClickListener {
         noRegBtn.setOnClickListener(this);
         btn.setOnClickListener(this);
 
+        if (displayNotifications){
+            setting = getSharedPreferences("LogPass", Context.MODE_PRIVATE);
+            savedLogin = setting.getString("Login", "");
+            savedPass = setting.getString("Password", "");
+            if (savedLogin.length() != 0) {
+                Boolean noOrYes = true;
+                Constant.setNoOrYes(noOrYes);
+                final LogginWithSaved logginWithSaved = new LogginWithSaved();
+                            logginWithSaved.execute();
+            }
+        }
     }
 
     @Override
@@ -144,17 +157,6 @@ public class LogginActivity extends Activity implements View.OnClickListener {
     }
 
     private class ParserToken extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            /*progressDialog = new ProgressDialog(LogginActivity.this);
-            progressDialog.setTitle("Отправка запроса");
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setIndeterminate(true);
-            progressDialog.show();*/
-        }
-
         @Override
         protected String doInBackground(String... arg) {
             Connection.Response resp1 = null;
@@ -226,14 +228,101 @@ public class LogginActivity extends Activity implements View.OnClickListener {
             }
             return info;
         }
+    }
+
+    private class LogginWithSaved extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(LogginActivity.this);
+            progressDialog.setTitle("Отправка запроса");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setIndeterminate(true);
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... arg) {
+            Connection.Response resp1 = null;
+            String token = null;
+            try {
+                resp1 = Jsoup.connect(Constant.getUrl())
+                        .method(Connection.Method.GET)
+                        .execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                assert resp1 != null;
+                Document doc = resp1.parse();
+                token = resp1.parse().getElementsByTag("div").first().val().trim();
+                for (Element meta : doc.select("input")) {
+                    if (meta.attr("name").equals("_csrf")) {
+                        token = meta.attr("value");
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Упаковываю все в пост и отправляю
+            Connection.Response resp2 = null;
+            try {
+                resp2 = Jsoup.connect(Constant.getUrl())
+                        .referrer("http://www.google.com")
+                        .userAgent(Constant.getUserAgent())
+                        .data("username", savedLogin)
+                        .data("password", savedPass)
+                        .data("_csrf", token)
+                        .cookies(resp1.cookies())
+                        .method(Connection.Method.POST).timeout(10000).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            assert resp2 != null;
+            common = resp2.cookies();
+            Constant.setCommon(common);
+            Constant.setToken(token);
+
+            Constant.setMyLogin(savedLogin);
+            Constant.setMyPassword(savedPass);
+
+            Document doc3 = null;
+            try {
+                doc3 = Jsoup.connect("http://my.khai.edu/my/")
+                        .referrer("http://www.google.com")
+                        .userAgent(Constant.getUserAgent())
+                        .data("_csrf", token)
+                        .cookies(Constant.getCommon())
+                        .timeout(10000)
+                        .get();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            assert doc3 != null;
+            for (Element clas : doc3.getElementsByClass("lead")) {
+                System.out.println(clas);
+                if (clas.text().startsWith("Шановний (а),")) {
+                    String info = clas.text();
+                    System.out.println(info);
+                    Constant.setInfo(info);
+                }
+            }
+            return info;
+        }
 
         @Override
         protected void onPostExecute(String string) {
             super.onPostExecute(string);
-          //  progressDialog.dismiss();
-
+                 progressDialog.dismiss();
+            LogginActivity.this.startActivity(mainIntent);
+            overridePendingTransition(R.anim.right_in, R.anim.left_out);
         }
     }
+
 
     public void setInputText() {
         login.addTextChangedListener(new TextWatcher() {
@@ -293,7 +382,7 @@ public class LogginActivity extends Activity implements View.OnClickListener {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(LogginActivity.this);
         alertDialog.setTitle("Вийти?");
 
-        alertDialog.setMessage("Ви дійсно бажаете вийти?");
+        alertDialog.setMessage("Ви дійсно бажаете завершити роботу?");
 
         alertDialog.setPositiveButton("Так", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog,int which) {
