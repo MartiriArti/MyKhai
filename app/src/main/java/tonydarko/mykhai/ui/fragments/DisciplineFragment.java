@@ -1,11 +1,14 @@
 package tonydarko.mykhai.ui.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,12 +22,13 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import tonydarko.mykhai.R;
+import tonydarko.mykhai.Utils.Constant;
 import tonydarko.mykhai.adapters.DisciplineAdapter;
+import tonydarko.mykhai.adapters.ExtraBallAdapter;
 import tonydarko.mykhai.items.DisciplineItem;
 
 public class DisciplineFragment extends Fragment {
@@ -33,6 +37,8 @@ public class DisciplineFragment extends Fragment {
     private RecyclerView recyclerView;
     CoordinatorLayout rootLayout;
     int t = 0;
+    Context context;
+    Document doc;
     ArrayList<DisciplineItem> data = new ArrayList<>();
     String url = "http://my.khai.edu/my/discipline";
     DisciplineAdapter disciplineAdapter;
@@ -42,7 +48,7 @@ public class DisciplineFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.discipline_fragment, container, false);
-
+        context = getActivity();
         // getActivity().setTitle("ExtraBallFragment");
         rootLayout = (CoordinatorLayout) rootView.findViewById(R.id.discipline_coordinator);
         setHasOptionsMenu(true);
@@ -60,6 +66,7 @@ public class DisciplineFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        context = getActivity();
         disciplineAdapter = new DisciplineAdapter(data);
         disciplineAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(disciplineAdapter);
@@ -88,23 +95,22 @@ public class DisciplineFragment extends Fragment {
 
         @Override
         protected Void doInBackground(String... arg) {
-            Document doc;
             try {
                 doc = Jsoup.connect(url).get();
-                title = doc.select("option");
-                newTableFinal = new String[title.size()];
-                for (Element titles : title) {
-                    newTableFinal[t] = titles.text();
-                    t++;
+                if (doc != null) {
+                    title = doc.select("option");
+                    newTableFinal = new String[title.size()];
+                    for (Element titles : title) {
+                        newTableFinal[t] = titles.text();
+                        t++;
+                    }
+                    for (int i = 1; i < newTableFinal.length; i++) {
+                        data.add(new DisciplineItem(newTableFinal[i]));
+                    }
                 }
-                System.out.println(Arrays.toString(newTableFinal));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            for (int i = 1; i < newTableFinal.length; i++) {
-                data.add(new DisciplineItem(newTableFinal[i]));
-            }
-
             return null;
         }
 
@@ -113,12 +119,32 @@ public class DisciplineFragment extends Fragment {
             super.onPostExecute(result);
             progressDialog.dismiss();
 
+            if (doc != null) {
+                disciplineAdapter = new DisciplineAdapter(data);
+                disciplineAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(disciplineAdapter);
+                newTableFinal = null;
+                t = 0;
+            }else {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                alertDialog.setTitle("Невдалося завантажити сторінку");
 
-            disciplineAdapter = new DisciplineAdapter(data);
-            disciplineAdapter.notifyDataSetChanged();
-            recyclerView.setAdapter(disciplineAdapter);
-            newTableFinal = null;
-            t = 0;
+                alertDialog.setMessage("Перевірте ваше підключення та спробуйте знову");
+
+                alertDialog.setPositiveButton("Повторити", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int which) {
+                        new ParserBigData().execute();
+                    }
+                });
+
+                alertDialog.setNegativeButton("Вийти", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                alertDialog.show();
+            }
         }
 
     }

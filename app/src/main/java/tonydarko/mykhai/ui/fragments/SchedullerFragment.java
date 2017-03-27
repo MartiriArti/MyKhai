@@ -1,11 +1,16 @@
 package tonydarko.mykhai.ui.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -15,7 +20,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -29,6 +33,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import tonydarko.mykhai.R;
+import tonydarko.mykhai.adapters.ExtraBallAdapter;
 import tonydarko.mykhai.adapters.SchedullerAdapter;
 import tonydarko.mykhai.items.SchedullerItem;
 
@@ -39,11 +44,13 @@ public class SchedullerFragment extends Fragment {
     ProgressDialog progressDialog;
     String url = "http://my.khai.edu/my/scheduler";
     int t = 0;
+    Document doc;
     SchedullerAdapter schedullerAdapter;
     ArrayList<SchedullerItem> data = new ArrayList<>();
     String[][] newTableFinal;
     private RecyclerView recyclerView;
     CoordinatorLayout rootLayout;
+    Context context;
 
     @Nullable
     @Override
@@ -51,6 +58,7 @@ public class SchedullerFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.scheduller_fragment, container, false);
         rootLayout = (CoordinatorLayout) rootView.findViewById(R.id.scheduller_coordinator);
         setHasOptionsMenu(true);
+        context = getActivity();
         if (data.size() == 0) {
             new ParserBigData().execute();
         } else {
@@ -65,7 +73,7 @@ public class SchedullerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        context = getActivity();
         schedullerAdapter = new SchedullerAdapter(data);
         schedullerAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(schedullerAdapter);
@@ -122,7 +130,6 @@ public class SchedullerFragment extends Fragment {
         protected Void doInBackground(String... block) {
             progressDialog.setMessage(getString(R.string.pre_exec_get));
             progressDialog.setIndeterminate(false);
-            Document doc;
             try {
                 doc = Jsoup
                         .connect(url)
@@ -130,41 +137,41 @@ public class SchedullerFragment extends Fragment {
                         .referrer("http://google.com")
                         .timeout(1000 * 8)
                         .ignoreContentType(true).get();
-
-                title = doc.select("tr");
-                newTableFinal = new String[title.size()][];
-                progressDialog.setMax(newTableFinal.length);
-                for (Element titles : title) {
-                    hashMap.put(titles.text(), titles.attr("td"));
-                    Elements trs = titles.select("tr");
-                    for (int i = 0; i < trs.size(); i++) {
-                        Elements tds = trs.get(i).select("td");
-                        newTableFinal[t] = new String[tds.size() + 1];
-                        for (int j = 0; j < tds.size(); j++) {
-                            progressDialog.setProgress(t);
-                            newTableFinal[t][j] = tds.get(j).text();
-                            if (j == 2) {
-                                String[] str = newTableFinal[t][2].split("\\|\\|");
-                                newTableFinal[t][j] = str[0];
-                                newTableFinal[t][5] = str[1];
+                if (doc != null) {
+                    title = doc.select("tr");
+                    newTableFinal = new String[title.size()][];
+                    progressDialog.setMax(newTableFinal.length);
+                    for (Element titles : title) {
+                        hashMap.put(titles.text(), titles.attr("td"));
+                        Elements trs = titles.select("tr");
+                        for (int i = 0; i < trs.size(); i++) {
+                            Elements tds = trs.get(i).select("td");
+                            newTableFinal[t] = new String[tds.size() + 1];
+                            for (int j = 0; j < tds.size(); j++) {
+                                progressDialog.setProgress(t);
+                                newTableFinal[t][j] = tds.get(j).text();
+                                if (j == 2) {
+                                    String[] str = newTableFinal[t][2].split("\\|\\|");
+                                    newTableFinal[t][j] = str[0];
+                                    newTableFinal[t][5] = str[1];
+                                }
                             }
                         }
+                        System.out.println(Arrays.deepToString(newTableFinal));
+                        t++;
                     }
-                    System.out.println(Arrays.deepToString(newTableFinal));
-                    t++;
+                    for (int i = 1; i < newTableFinal.length; i++) {
+                        data.add(new SchedullerItem(
+                                newTableFinal[i][0],//fio
+                                newTableFinal[i][1],//group
+                                newTableFinal[i][2],//para
+                                newTableFinal[i][3],//type
+                                newTableFinal[i][4],//date
+                                newTableFinal[i][5]));//fio_prepod
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-
-            for (int i = 1; i < newTableFinal.length; i++) {
-                data.add(new SchedullerItem(
-                        newTableFinal[i][0],//fio
-                        newTableFinal[i][1],//group
-                        newTableFinal[i][2],//para
-                        newTableFinal[i][3],//type
-                        newTableFinal[i][4],//date
-                        newTableFinal[i][5]));//fio_prepod
             }
             return null;
         }
@@ -174,10 +181,31 @@ public class SchedullerFragment extends Fragment {
             super.onPostExecute(result);
             progressDialog.dismiss();
 
-            schedullerAdapter = new SchedullerAdapter(data);
-            schedullerAdapter.notifyDataSetChanged();
-            recyclerView.setAdapter(schedullerAdapter);
-            t = 0;
+            if (doc != null) {
+                schedullerAdapter = new SchedullerAdapter(data);
+                schedullerAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(schedullerAdapter);
+                t = 0;
+            } else {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                alertDialog.setTitle("Невдалося завантажити сторінку");
+
+                alertDialog.setMessage("Перевірте ваше підключення та спробуйте знову");
+
+                alertDialog.setPositiveButton("Повторити", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int which) {
+                        new ParserBigData().execute();
+                    }
+                });
+
+                alertDialog.setNegativeButton("Вийти", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                alertDialog.show();
+            }
         }
 
     }

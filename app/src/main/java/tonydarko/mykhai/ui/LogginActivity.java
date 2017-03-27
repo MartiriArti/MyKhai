@@ -34,6 +34,7 @@ import java.util.concurrent.ExecutionException;
 import tonydarko.mykhai.R;
 import tonydarko.mykhai.Utils.Constant;
 import tonydarko.mykhai.Utils.NetworkStatusChecker;
+import tonydarko.mykhai.ui.fragments.ExtraBallFragment;
 
 public class LogginActivity extends Activity implements View.OnClickListener {
 
@@ -52,6 +53,7 @@ public class LogginActivity extends Activity implements View.OnClickListener {
     TextInputLayout inputLogin, inputPass;
     TextInputEditText login, pass;
     Intent mainIntent;
+    Document doc3, doc;
     NetworkStatusChecker networkStatusChecker;
 
     @Override
@@ -170,25 +172,17 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                 resp1 = Jsoup.connect(Constant.getUrl())
                         .method(Connection.Method.GET)
                         .execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
                 assert resp1 != null;
-                Document doc = resp1.parse();
+                doc = resp1.parse();
                 token = resp1.parse().getElementsByTag("div").first().val().trim();
                 for (Element meta : doc.select("input")) {
                     if (meta.attr("name").equals("_csrf")) {
                         token = meta.attr("value");
                     }
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
             // Упаковываю все в пост и отправляю
             Connection.Response resp2 = null;
-            try {
                 resp2 = Jsoup.connect(Constant.getUrl())
                         .referrer("http://www.google.com")
                         .userAgent(Constant.getUserAgent())
@@ -197,9 +191,6 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                         .data("_csrf", token)
                         .cookies(resp1.cookies())
                         .method(Connection.Method.POST).timeout(10000).execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
             assert resp2 != null;
             common = resp2.cookies();
@@ -209,8 +200,6 @@ public class LogginActivity extends Activity implements View.OnClickListener {
             Constant.setMyLogin(myLogin);
             Constant.setMyPassword(myPassword);
 
-            Document doc3 = null;
-            try {
                 doc3 = Jsoup.connect("http://my.khai.edu/my/")
                         .referrer("http://www.google.com")
                         .userAgent(Constant.getUserAgent())
@@ -255,67 +244,57 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                 resp1 = Jsoup.connect(Constant.getUrl())
                         .method(Connection.Method.GET)
                         .execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
                 assert resp1 != null;
-                Document doc = resp1.parse();
-                token = resp1.parse().getElementsByTag("div").first().val().trim();
-                for (Element meta : doc.select("input")) {
-                    if (meta.attr("name").equals("_csrf")) {
-                        token = meta.attr("value");
+                doc = resp1.parse();
+                if (doc != null) {
+                    token = resp1.parse().getElementsByTag("div").first().val().trim();
+                    for (Element meta : doc.select("input")) {
+                        if (meta.attr("name").equals("_csrf")) {
+                            token = meta.attr("value");
+                        }
+                    }
+                    // Упаковываю все в пост и отправляю
+                    Connection.Response resp2 = null;
+
+                    resp2 = Jsoup.connect(Constant.getUrl())
+                            .referrer("http://www.google.com")
+                            .userAgent(Constant.getUserAgent())
+                            .data("username", savedLogin)
+                            .data("password", savedPass)
+                            .data("_csrf", token)
+                            .cookies(resp1.cookies())
+                            .method(Connection.Method.POST).timeout(10000).execute();
+
+                    assert resp2 != null;
+                    common = resp2.cookies();
+                    Constant.setCommon(common);
+                    Constant.setToken(token);
+
+                    Constant.setMyLogin(savedLogin);
+                    Constant.setMyPassword(savedPass);
+
+                    doc3 = Jsoup.connect("http://my.khai.edu/my/")
+                            .referrer("http://www.google.com")
+                            .userAgent(Constant.getUserAgent())
+                            .data("_csrf", token)
+                            .cookies(Constant.getCommon())
+                            .timeout(10000)
+                            .get();
+
+                    assert doc3 != null;
+                    for (Element clas : doc3.getElementsByClass("lead")) {
+                        System.out.println(clas);
+                        if (clas.text().startsWith("Шановний (а),")) {
+                            String info = clas.text();
+                            System.out.println(info);
+                            Constant.setInfo(info);
+                        }
                     }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            // Упаковываю все в пост и отправляю
-            Connection.Response resp2 = null;
-            try {
-                resp2 = Jsoup.connect(Constant.getUrl())
-                        .referrer("http://www.google.com")
-                        .userAgent(Constant.getUserAgent())
-                        .data("username", savedLogin)
-                        .data("password", savedPass)
-                        .data("_csrf", token)
-                        .cookies(resp1.cookies())
-                        .method(Connection.Method.POST).timeout(10000).execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            assert resp2 != null;
-            common = resp2.cookies();
-            Constant.setCommon(common);
-            Constant.setToken(token);
-
-            Constant.setMyLogin(savedLogin);
-            Constant.setMyPassword(savedPass);
-
-            Document doc3 = null;
-            try {
-                doc3 = Jsoup.connect("http://my.khai.edu/my/")
-                        .referrer("http://www.google.com")
-                        .userAgent(Constant.getUserAgent())
-                        .data("_csrf", token)
-                        .cookies(Constant.getCommon())
-                        .timeout(10000)
-                        .get();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            assert doc3 != null;
-            for (Element clas : doc3.getElementsByClass("lead")) {
-                System.out.println(clas);
-                if (clas.text().startsWith("Шановний (а),")) {
-                    String info = clas.text();
-                    System.out.println(info);
-                    Constant.setInfo(info);
-                }
-            }
             return info;
         }
 
@@ -323,9 +302,31 @@ public class LogginActivity extends Activity implements View.OnClickListener {
         protected void onPostExecute(String string) {
             super.onPostExecute(string);
                  progressDialog.dismiss();
-            LogginActivity.this.startActivity(mainIntent);
-            overridePendingTransition(R.anim.right_in, R.anim.left_out);
-            LogginActivity.this.finish();
+            if (doc != null) {
+                LogginActivity.this.startActivity(mainIntent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                LogginActivity.this.finish();
+            } else {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(LogginActivity.this);
+                alertDialog.setTitle("Невдалося авторизоватися");
+
+                alertDialog.setMessage("Перевірте ваше підключення та спробуйте знову");
+
+                alertDialog.setPositiveButton("Повторити", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int which) {
+                        final LogginWithSaved logginWithSaved = new LogginWithSaved();
+                        logginWithSaved.execute();
+                    }
+                });
+
+                alertDialog.setNegativeButton("Вийти", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                alertDialog.show();
+            }
         }
     }
 

@@ -1,15 +1,17 @@
 package tonydarko.mykhai.ui.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -20,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -30,11 +31,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Objects;
 
 import tonydarko.mykhai.R;
 import tonydarko.mykhai.adapters.ExtraBallAdapter;
 import tonydarko.mykhai.items.ExtraBallItem;
+import tonydarko.mykhai.ui.MainActivity;
 
 public class ExtraBallFragment extends Fragment {
 
@@ -42,18 +43,20 @@ public class ExtraBallFragment extends Fragment {
     private MenuItem searchMenuItem;
     ProgressDialog progressDialog;
     private RecyclerView recyclerView;
+    Document doc;
     CoordinatorLayout rootLayout;
     String url = "http://my.khai.edu/my/scolarship_ball";
     int t = 0;
     ExtraBallAdapter extraBallAdapter;
     ArrayList<ExtraBallItem> data = new ArrayList<>();
     String[][] newTableFinal;
+    Context context;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.extra_ball_fragment, container, false);
-
+        context = getActivity();
         rootLayout = (CoordinatorLayout) rootView.findViewById(R.id.extra_ball_coordinator);
         setHasOptionsMenu(true);
 
@@ -73,11 +76,11 @@ public class ExtraBallFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        context = getActivity();
+        extraBallAdapter = new ExtraBallAdapter(data);
+        extraBallAdapter.notifyDataSetChanged();
 
-            extraBallAdapter = new ExtraBallAdapter(data);
-            extraBallAdapter.notifyDataSetChanged();
-
-            recyclerView.setAdapter(extraBallAdapter);
+        recyclerView.setAdapter(extraBallAdapter);
 
     }
 
@@ -145,7 +148,6 @@ public class ExtraBallFragment extends Fragment {
 
         @Override
         protected Void doInBackground(String... block) {
-            Document doc;
             progressDialog.setMessage(getString(R.string.pre_exec_get));
             progressDialog.setIndeterminate(false);
             try {
@@ -155,34 +157,34 @@ public class ExtraBallFragment extends Fragment {
                         .referrer("http://google.com")
                         .timeout(1000 * 8)
                         .ignoreContentType(true).get();
-
-                title = doc.select("tr");
-                newTableFinal = new String[title.size()][];
-                progressDialog.setMax(newTableFinal.length);
-                for (Element titles : title) {
-                    hashMap.put(titles.text(), titles.attr("td"));
-                    Elements trs = titles.select("tr");
-                    for (int i = 0; i < trs.size(); i++) {
-                        progressDialog.setProgress(t);
-                        Elements tds = trs.get(i).select("td");
-                        newTableFinal[t] = new String[tds.size()];
-                        for (int j = 0; j < tds.size(); j++) {
-                            newTableFinal[t][j] = tds.get(j).text();
+                if (doc != null) {
+                    title = doc.select("tr");
+                    newTableFinal = new String[title.size()][];
+                    progressDialog.setMax(newTableFinal.length);
+                    for (Element titles : title) {
+                        hashMap.put(titles.text(), titles.attr("td"));
+                        Elements trs = titles.select("tr");
+                        for (int i = 0; i < trs.size(); i++) {
+                            progressDialog.setProgress(t);
+                            Elements tds = trs.get(i).select("td");
+                            newTableFinal[t] = new String[tds.size()];
+                            for (int j = 0; j < tds.size(); j++) {
+                                newTableFinal[t][j] = tds.get(j).text();
+                            }
                         }
+                        t++;
                     }
-                    t++;
+                }
+                for (int i = 2; i < newTableFinal.length; i++) {
+                    newTableFinal[i][2] += " " + newTableFinal[i][3] + " " + newTableFinal[i][4];
+                    data.add(new ExtraBallItem(
+                            newTableFinal[i][1],//group
+                            newTableFinal[i][2], //fio
+                            newTableFinal[i][5],//full ball
+                            newTableFinal[i][6]));//ball
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-
-            for (int i = 2; i < newTableFinal.length; i++) {
-                newTableFinal[i][2] += " " + newTableFinal[i][3] + " " + newTableFinal[i][4];
-                data.add(new ExtraBallItem(
-                        newTableFinal[i][1],//group
-                        newTableFinal[i][2], //fio
-                        newTableFinal[i][5],//full ball
-                        newTableFinal[i][6]));//ball
             }
             return null;
         }
@@ -192,14 +194,35 @@ public class ExtraBallFragment extends Fragment {
             super.onPostExecute(result);
             progressDialog.dismiss();
 
-            extraBallAdapter = new ExtraBallAdapter(data);
-            extraBallAdapter.notifyDataSetChanged();
-            recyclerView.setAdapter(extraBallAdapter);
-            Snackbar.make(getView(), newTableFinal[0][0], Snackbar.LENGTH_INDEFINITE)
-                    .setActionTextColor(Color.RED)
-                    .show();
-            newTableFinal = null;
-            t = 0;
+            if (doc != null) {
+                extraBallAdapter = new ExtraBallAdapter(data);
+                extraBallAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(extraBallAdapter);
+                Snackbar.make(getView(), newTableFinal[0][0], Snackbar.LENGTH_INDEFINITE)
+                        .setActionTextColor(Color.RED)
+                        .show();
+                newTableFinal = null;
+                t = 0;
+            }else {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                alertDialog.setTitle("Невдалося завантажити сторінку");
+
+                alertDialog.setMessage("Перевірте ваше підключення та спробуйте знову");
+
+                alertDialog.setPositiveButton("Повторити", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int which) {
+                        new ParserBigData().execute();
+                    }
+                });
+
+                alertDialog.setNegativeButton("Вийти", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                alertDialog.show();
+            }
         }
     }
 }

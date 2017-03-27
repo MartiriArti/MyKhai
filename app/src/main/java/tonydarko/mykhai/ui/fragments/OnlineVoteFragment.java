@@ -1,11 +1,14 @@
 package tonydarko.mykhai.ui.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -15,7 +18,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -28,14 +30,16 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import tonydarko.mykhai.R;
+import tonydarko.mykhai.adapters.ExtraBallAdapter;
 import tonydarko.mykhai.adapters.OnlineVoteAdapter;
 import tonydarko.mykhai.items.OnlineVoteItem;
 
-public class OnlineVoteFragment extends Fragment{
+public class OnlineVoteFragment extends Fragment {
 
     private SearchView searchView;
     private MenuItem searchMenuItem;
     ProgressDialog progressDialog;
+    Document doc;
     private RecyclerView recyclerView;
     private CoordinatorLayout rootLayout;
     String url = "http://my.khai.edu/my/stats";
@@ -43,30 +47,32 @@ public class OnlineVoteFragment extends Fragment{
     OnlineVoteAdapter onlineVoteAdapter;
     ArrayList<OnlineVoteItem> data = new ArrayList<>();
     String[][] newTableFinal;
+    Context context;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.online_vote_fragment, container, false);
-
-       // getActivity().setTitle("OnlineVoteFragment");
+        context = getActivity();
+        // getActivity().setTitle("OnlineVoteFragment");
         rootLayout = (CoordinatorLayout) rootView.findViewById(R.id.online_vote_coordinator);
         setHasOptionsMenu(true);
 
         if (data.size() == 0) {
             new ParserBigData().execute();
-        }else {
+        } else {
             onlineVoteAdapter = new OnlineVoteAdapter(data);
             onlineVoteAdapter.notifyDataSetChanged();
             recyclerView.setAdapter(onlineVoteAdapter);
         }
-            initRecycleView(rootView);
+        initRecycleView(rootView);
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        context = getActivity();
         onlineVoteAdapter = new OnlineVoteAdapter(data);
         onlineVoteAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(onlineVoteAdapter);
@@ -81,7 +87,7 @@ public class OnlineVoteFragment extends Fragment{
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate( R.menu.menu, menu);
+        inflater.inflate(R.menu.menu, menu);
         searchMenuItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) searchMenuItem.getActionView();
 
@@ -113,7 +119,7 @@ public class OnlineVoteFragment extends Fragment{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-           progressDialog = new ProgressDialog(getActivity());
+            progressDialog = new ProgressDialog(getActivity());
             progressDialog.setTitle(getString(R.string.pre_exec_loading));
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.setIndeterminate(true);
@@ -122,7 +128,6 @@ public class OnlineVoteFragment extends Fragment{
 
         @Override
         protected Void doInBackground(String... block) {
-            Document doc;
             progressDialog.setMessage(getString(R.string.pre_exec_get));
             progressDialog.setIndeterminate(false);
             try {
@@ -132,50 +137,68 @@ public class OnlineVoteFragment extends Fragment{
                         .referrer("http://google.com")
                         .timeout(1000 * 8)
                         .ignoreContentType(true).get();
-
-                title = doc.select("tr");
-                newTableFinal = new String[title.size()][];
-                progressDialog.setMax(newTableFinal.length);
-                newTableFinal = new String[title.size()][];
-                for (Element titles : title) {
-                    hashMap.put(titles.text(), titles.attr("td"));
-                    Elements trs = titles.select("tr");
-                    for (int i = 0; i < trs.size(); i++) {
-                        progressDialog.setProgress(t);
-                        Elements tds = trs.get(i).select("td");
-                        newTableFinal[t] = new String[tds.size()];
-                        for (int j = 0; j < tds.size(); j++) {
-                            newTableFinal[t][j] = tds.get(j).text();
+                if (doc != null) {
+                    title = doc.select("tr");
+                    newTableFinal = new String[title.size()][];
+                    progressDialog.setMax(newTableFinal.length);
+                    newTableFinal = new String[title.size()][];
+                    for (Element titles : title) {
+                        hashMap.put(titles.text(), titles.attr("td"));
+                        Elements trs = titles.select("tr");
+                        for (int i = 0; i < trs.size(); i++) {
+                            progressDialog.setProgress(t);
+                            Elements tds = trs.get(i).select("td");
+                            newTableFinal[t] = new String[tds.size()];
+                            for (int j = 0; j < tds.size(); j++) {
+                                newTableFinal[t][j] = tds.get(j).text();
+                            }
                         }
+                        t++;
                     }
-                    t++;
+                    for (int i = 1; i < newTableFinal.length; i++) {
+                        data.add(new OnlineVoteItem(
+                                newTableFinal[i][0],//num zayava
+                                newTableFinal[i][2],//fio student
+                                newTableFinal[i][3],//fio prepod
+                                newTableFinal[i][4],//predmet
+                                newTableFinal[i][5],//group
+                                newTableFinal[i][6]));//date
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            for (int i = 1; i < newTableFinal.length; i++) {
-                data.add(new OnlineVoteItem(
-                        newTableFinal[i][0],//num zayava
-                        newTableFinal[i][2],//fio student
-                        newTableFinal[i][3],//fio prepod
-                        newTableFinal[i][4],//predmet
-                        newTableFinal[i][5],//group
-                        newTableFinal[i][6]));//date
-            }
             return null;
         }
+
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-          progressDialog.dismiss();
+            progressDialog.dismiss();
+            if (doc != null) {
+                onlineVoteAdapter = new OnlineVoteAdapter(data);
+                onlineVoteAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(onlineVoteAdapter);
+                t = 0;
+            }else{
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                alertDialog.setTitle("Невдалося завантажити сторінку");
 
-          //  info.setText(newTableFinal[0][0]);//info message
+                alertDialog.setMessage("Перевірте ваше підключення та спробуйте знову");
 
-            onlineVoteAdapter = new OnlineVoteAdapter(data);
-            onlineVoteAdapter.notifyDataSetChanged();
-            recyclerView.setAdapter(onlineVoteAdapter);
-            t = 0;
+                alertDialog.setPositiveButton("Повторити", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int which) {
+                            new ParserBigData().execute();
+                    }
+                });
+                alertDialog.setNegativeButton("Вийти", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                alertDialog.show();
+            }
         }
 
     }
