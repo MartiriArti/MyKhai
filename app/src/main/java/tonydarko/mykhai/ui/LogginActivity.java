@@ -210,7 +210,6 @@ public class LogginActivity extends Activity implements View.OnClickListener {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             assert doc3 != null;
             for (Element clas : doc3.getElementsByClass("lead")) {
                 System.out.println(clas);
