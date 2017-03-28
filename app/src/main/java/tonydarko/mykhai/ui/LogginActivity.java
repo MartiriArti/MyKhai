@@ -147,12 +147,12 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                             overridePendingTransition(R.anim.right_in, R.anim.left_out);
                             LogginActivity.this.finish();
                         } else {
-                            Snackbar.make(findViewById(android.R.id.content), "Не вірний логін або пароль!", Snackbar.LENGTH_LONG)
+                            Snackbar.make(findViewById(android.R.id.content), R.string.not_corr_logpass, Snackbar.LENGTH_LONG)
                                     .setActionTextColor(Color.RED)
                                     .show();
                         }
                     } else
-                        Snackbar.make(findViewById(android.R.id.content), "Логін або пароль пусті!", Snackbar.LENGTH_LONG)
+                        Snackbar.make(findViewById(android.R.id.content), R.string.logorpass_empty, Snackbar.LENGTH_LONG)
                                 .setActionTextColor(Color.RED)
                                 .show();
                 } else
@@ -307,18 +307,18 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                 LogginActivity.this.finish();
             } else {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(LogginActivity.this);
-                alertDialog.setTitle("Невдалося авторизоватися");
+                alertDialog.setTitle(R.string.login_no_auth);
 
-                alertDialog.setMessage("Перевірте ваше підключення та спробуйте знову");
+                alertDialog.setMessage(R.string.AD_check_internet);
 
-                alertDialog.setPositiveButton("Повторити", new DialogInterface.OnClickListener() {
+                alertDialog.setPositiveButton(R.string.AD_repeat, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int which) {
                         final LogginWithSaved logginWithSaved = new LogginWithSaved();
                         logginWithSaved.execute();
                     }
                 });
 
-                alertDialog.setNegativeButton("Вийти", new DialogInterface.OnClickListener() {
+                alertDialog.setNegativeButton(R.string.AD_exit, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
@@ -386,11 +386,11 @@ public class LogginActivity extends Activity implements View.OnClickListener {
     @Override
     public void onBackPressed() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(LogginActivity.this);
-        alertDialog.setTitle("Вийти?");
+        alertDialog.setTitle(R.string.login_q_exit);
 
-        alertDialog.setMessage("Ви дійсно бажаете завершити роботу?");
+        alertDialog.setMessage(R.string.login_exit_quest);
 
-        alertDialog.setPositiveButton("Так", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(R.string.login_yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog,int which) {
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.addCategory(Intent.CATEGORY_HOME);
@@ -400,7 +400,7 @@ public class LogginActivity extends Activity implements View.OnClickListener {
             }
         });
 
-        alertDialog.setNegativeButton("Ні", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(R.string.login_no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }

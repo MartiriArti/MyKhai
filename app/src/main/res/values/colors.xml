@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#1565C0</color>
     <color name="colorAccent">#1976D2</color>
     <color name="back">#ffffff</color>
+    <color name="backtv">#cdffffff</color>
     <color name="khaiBlue">#1976D2</color>
     <color name="splashBack">#1976D2</color>
     <color name="splashText">#B3E5FC</color>

@@ -2,10 +2,6 @@
     <string name="app_name">MyKhai</string>
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
-    <string name="settings_splash">Settings screen!</string>
-
-    <string name="statistics_splash">Statistics screen!</string>
-    <string name="user_name" translatable="false">Anton Martishkov</string>
 
     <string name="login_tv_loz">Знання, якi пiдкорюють небо</string>
     <string name="login_ti_login">Введіть логін</string>
@@ -26,10 +22,6 @@
     <string name="drawer_scheduller">Розклад занять за вибором</string>
     <string name="drawer_tools">Налаштування</string>
     <string name="drawer_exit">Вихід</string>
-    <string name="khai3">“ХАІ”</string>
-    <string name="khai2">М.Є. Жуковського</string>
-    <string name="khai1">Національний аерокосмічний університет ім.</string>
-
 
     <!-- settingsFragment -->
     <string name="pref_enable_save_password" translatable="false">enable_save_password</string>
@@ -37,7 +29,25 @@
     <string name="pref_enable_save_password_true">Так</string>
     <string name="pref_enable_save_password_false">Ні</string>
     <string name="pref_enable_save_password_default" translatable="false">true</string>
+
     <string name="pre_exec_loading">Завантаження сторінки</string>
     <string name="pre_exec_get">Отримання даних</string>
+    <string name="AD_err_dow_page">Невдалося завантажити сторінку</string>
+    <string name="AD_check_internet">Перевірте ваше підключення та спробуйте знову</string>
+    <string name="AD_repeat">Повторити</string>
+    <string name="AD_exit">Вийти</string>
+    <string name="search_ebt_input">Введіть: групу або фамілію</string>
+    <string name="search_ov_input">Введіть: предмет, фамілію або групу</string>
+    <string name="search_s_input">Введіть: предмет, фамілію або групу</string>
+    <string name="nav_year">Навчальний рік:</string>
+    <string name="semestr">Семестр:</string>
+    <string name="login_no_auth">Невдалося авторизоватися</string>
+    <string name="login_q_exit">Вийти?</string>
+    <string name="login_exit_quest">Ви дійсно бажаете завершити роботу?</string>
+    <string name="login_yes">Так</string>
+    <string name="login_no">Ні</string>
+    <string name="not_corr_logpass">Не вірний логін або пароль!</string>
+    <string name="logorpass_empty">Логін або пароль пусті!</string>
+    <string name="main_title">Оцінки студента ХАІ</string>
 
 </resources>

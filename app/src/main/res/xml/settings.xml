@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<android.support.v7.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <android.support.v7.preference.SwitchPreferenceCompat
             android:defaultValue="@string/pref_enable_save_password_default"
@@ -7,5 +8,7 @@
             android:summaryOff="@string/pref_enable_save_password_false"
             android:summaryOn="@string/pref_enable_save_password_true"
             android:title="@string/pref_enable_save_password_label" />
+
+
 
 </android.support.v7.preference.PreferenceScreen>

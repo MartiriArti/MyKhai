@@ -161,8 +161,8 @@ public class StudentBallsFragment extends Fragment {
                 }
                 studentBallsAdapter = new StudentBallsAdapter(data);
                 studentBallsAdapter.notifyDataSetChanged();
-                Snackbar.make(rootLayout, "Навчальний рік: " +
-                        newTableFinal[1][6] + " Семестр: " +
+                Snackbar.make(rootLayout, getString(R.string.nav_year) +
+                        newTableFinal[1][6] + getString(R.string.semestr) +
                         newTableFinal[1][7], Snackbar.LENGTH_INDEFINITE)
                         .setActionTextColor(Color.RED)
                         .show();
@@ -170,17 +170,17 @@ public class StudentBallsFragment extends Fragment {
                 t = 0;
             }else {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-                alertDialog.setTitle("Невдалося завантажити сторінку");
+                alertDialog.setTitle(R.string.AD_err_dow_page);
 
-                alertDialog.setMessage("Перевірте ваше підключення та спробуйте знову");
+                alertDialog.setMessage(R.string.AD_check_internet);
 
-                alertDialog.setPositiveButton("Повторити", new DialogInterface.OnClickListener() {
+                alertDialog.setPositiveButton(R.string.AD_repeat, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int which) {
                         new ParserBigData().execute();
                     }
                 });
 
-                alertDialog.setNegativeButton("Вийти", new DialogInterface.OnClickListener() {
+                alertDialog.setNegativeButton(R.string.AD_exit, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }

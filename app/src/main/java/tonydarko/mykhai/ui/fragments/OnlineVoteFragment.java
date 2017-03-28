@@ -91,7 +91,7 @@ public class OnlineVoteFragment extends Fragment {
         searchMenuItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) searchMenuItem.getActionView();
 
-        searchView.setQueryHint("Введіть: предмет, фамілію або групу");
+        searchView.setQueryHint(getString(R.string.search_ov_input));
     }
 
     @Override
@@ -182,16 +182,16 @@ public class OnlineVoteFragment extends Fragment {
                 t = 0;
             }else{
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-                alertDialog.setTitle("Невдалося завантажити сторінку");
+                alertDialog.setTitle(R.string.AD_err_dow_page);
 
-                alertDialog.setMessage("Перевірте ваше підключення та спробуйте знову");
+                alertDialog.setMessage(R.string.AD_check_internet);
 
-                alertDialog.setPositiveButton("Повторити", new DialogInterface.OnClickListener() {
+                alertDialog.setPositiveButton(R.string.AD_repeat, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int which) {
                             new ParserBigData().execute();
                     }
                 });
-                alertDialog.setNegativeButton("Вийти", new DialogInterface.OnClickListener() {
+                alertDialog.setNegativeButton(R.string.AD_exit, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }

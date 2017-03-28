@@ -145,11 +145,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.drawer_exit:
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-                alertDialog.setTitle("Вийти?");
+                alertDialog.setTitle(R.string.login_q_exit);
 
-                alertDialog.setMessage("Ви дійсно бажаете вийти?");
+                alertDialog.setMessage(R.string.login_exit_quest);
 
-                alertDialog.setPositiveButton("Так", new DialogInterface.OnClickListener() {
+                alertDialog.setPositiveButton(R.string.login_yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int which) {
                         Intent intent = new Intent(MainActivity.this, LogginActivity.class);
                         intent.addCategory(Intent.CATEGORY_HOME);
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
 
-                alertDialog.setNegativeButton("Ні", new DialogInterface.OnClickListener() {
+                alertDialog.setNegativeButton(R.string.login_no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
@@ -179,11 +179,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void allertDialogFunc(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-        alertDialog.setTitle("Вийти?");
+        alertDialog.setTitle(R.string.login_q_exit);
 
-        alertDialog.setMessage("Ви дійсно бажаете вийти?");
+        alertDialog.setMessage(R.string.login_exit_quest);
 
-        alertDialog.setPositiveButton("Так", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(R.string.login_yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog,int which) {
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.addCategory(Intent.CATEGORY_HOME);
@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        alertDialog.setNegativeButton("Ні", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(R.string.login_no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
             }
@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-        setTitle("Оцінки студента ХАІ");
+        setTitle(getString(R.string.main_title));
     }
 
 
@@ -243,25 +243,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String fragmentClassName = fragment.getClass().getName();
 
         if (fragmentClassName.equals(ExtraBallFragment.class.getName())) {
-            setTitle("Додаткові бали");
+            setTitle(R.string.drawer_extra_balls);
             navigationView.setCheckedItem(R.id.drawer_extra_ball);
         } else if (fragmentClassName.equals(SchedullerFragment.class.getName())) {
-            setTitle("Розклад занять за вибором");
+            setTitle(R.string.drawer_scheduller);
             navigationView.setCheckedItem(R.id.drawer_scheduler);
         } else if (fragmentClassName.equals(RatingFragment.class.getName())) {
-            setTitle("Рейтинг на стипендію");
+            setTitle(R.string.drawer_rating);
             navigationView.setCheckedItem(R.id.drawer_rating);
         } else if (fragmentClassName.equals(StudentBallsFragment.class.getName())) {
-            setTitle("Оцінки студента");
+            setTitle(R.string.drawer_student_balls);
             navigationView.setCheckedItem(R.id.drawer_student_ball);
         } else if (fragmentClassName.equals(DisciplineFragment.class.getName())) {
-            setTitle("Вибір дисципліни");
+            setTitle(R.string.drawer_subject);
             navigationView.setCheckedItem(R.id.drawer_vibir);
         } else if (fragmentClassName.equals(OnlineVoteFragment.class.getName())) {
-            setTitle("Онлайн вибір");
+            setTitle(R.string.drawer_online_vote);
             navigationView.setCheckedItem(R.id.drawer_online_vote);
         } else if (fragmentClassName.equals(SettingsFragment.class.getName())) {
-            setTitle("Налаштування");
+            setTitle(R.string.drawer_tools);
             navigationView.setCheckedItem(R.id.drawer_settings);
         }
     }
