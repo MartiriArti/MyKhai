@@ -16,6 +16,12 @@
             android:summaryOn="@string/pref_enable_splash_true"
             android:title="@string/pref_enable_splash_label" />
 
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:defaultValue="@string/pref_enable_intro_default"
+            android:key="@string/pref_enable_intro"
+            android:summaryOff="@string/pref_enable_intro_false"
+            android:summaryOn="@string/pref_enable_intro_true"
+            android:title="@string/pref_enable_intro_label" />
 
 
 </android.support.v7.preference.PreferenceScreen>

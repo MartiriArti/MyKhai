@@ -34,7 +34,6 @@ import java.util.concurrent.ExecutionException;
 import tonydarko.mykhai.R;
 import tonydarko.mykhai.Utils.Constant;
 import tonydarko.mykhai.Utils.NetworkStatusChecker;
-import tonydarko.mykhai.ui.fragments.ExtraBallFragment;
 
 public class LogginActivity extends Activity implements View.OnClickListener {
 
@@ -85,22 +84,23 @@ public class LogginActivity extends Activity implements View.OnClickListener {
         btn.setOnClickListener(this);
 
         if (NetworkStatusChecker.isNetworkAvailable(LogginActivity.this)) {
-        if (displayNotifications){
-            setting = getSharedPreferences("LogPass", Context.MODE_PRIVATE);
-            savedLogin = setting.getString("Login", "");
-            savedPass = setting.getString("Password", "");
-            if (savedLogin.length() != 0) {
-                Boolean noOrYes = true;
-                Constant.setNoOrYes(noOrYes);
-                final LogginWithSaved logginWithSaved = new LogginWithSaved();
-                            logginWithSaved.execute();
+            if (displayNotifications) {
+                setting = getSharedPreferences("LogPass", Context.MODE_PRIVATE);
+                savedLogin = setting.getString("Login", "");
+                savedPass = setting.getString("Password", "");
+                if (savedLogin.length() != 0) {
+                    Boolean noOrYes = true;
+                    Constant.setNoOrYes(noOrYes);
+                    final LogginWithSaved logginWithSaved = new LogginWithSaved();
+                    logginWithSaved.execute();
+                }
             }
-        }
-    } else {
+        } else {
             Snackbar.make(findViewById(android.R.id.content), R.string.login_no_intenet, Snackbar.LENGTH_LONG)
                     .setActionTextColor(Color.RED)
                     .show();
-    }}
+        }
+    }
 
     @Override
     public void onClick(View view) {
@@ -133,13 +133,11 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                         if (Constant.getInfo().length() != 0) {
                             noOrYes = true;
                             Constant.setNoOrYes(noOrYes);
-
                             if (displayNotifications) {
                                 setting = getSharedPreferences("LogPass", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = setting.edit();
                                 editor.putString("Login", myLogin);
                                 editor.putString("Password", myPassword);
-                                System.out.println("Saved");
                                 editor.apply();
                             }
                             LogginActivity.this.startActivity(mainIntent);
@@ -181,8 +179,8 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                     }
                 }
 
-            // Упаковываю все в пост и отправляю
-            Connection.Response resp2 = null;
+                // Упаковываю все в пост и отправляю
+                Connection.Response resp2 = null;
                 resp2 = Jsoup.connect(Constant.getUrl())
                         .referrer("http://www.google.com")
                         .userAgent(Constant.getUserAgent())
@@ -192,13 +190,13 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                         .cookies(resp1.cookies())
                         .method(Connection.Method.POST).timeout(10000).execute();
 
-            assert resp2 != null;
-            common = resp2.cookies();
-            Constant.setCommon(common);
-            Constant.setToken(token);
+                assert resp2 != null;
+                common = resp2.cookies();
+                Constant.setCommon(common);
+                Constant.setToken(token);
 
-            Constant.setMyLogin(myLogin);
-            Constant.setMyPassword(myPassword);
+                Constant.setMyLogin(myLogin);
+                Constant.setMyPassword(myPassword);
 
                 doc3 = Jsoup.connect("http://my.khai.edu/my/")
                         .referrer("http://www.google.com")
@@ -300,7 +298,7 @@ public class LogginActivity extends Activity implements View.OnClickListener {
         @Override
         protected void onPostExecute(String string) {
             super.onPostExecute(string);
-                 progressDialog.dismiss();
+            progressDialog.dismiss();
             if (doc != null) {
                 LogginActivity.this.startActivity(mainIntent);
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
@@ -312,7 +310,7 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                 alertDialog.setMessage(R.string.AD_check_internet);
 
                 alertDialog.setPositiveButton(R.string.AD_repeat, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int which) {
+                    public void onClick(DialogInterface dialog, int which) {
                         final LogginWithSaved logginWithSaved = new LogginWithSaved();
                         logginWithSaved.execute();
                     }
@@ -391,7 +389,7 @@ public class LogginActivity extends Activity implements View.OnClickListener {
         alertDialog.setMessage(R.string.login_exit_quest);
 
         alertDialog.setPositiveButton(R.string.login_yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog,int which) {
+            public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

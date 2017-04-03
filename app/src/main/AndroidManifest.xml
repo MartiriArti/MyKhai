@@ -18,6 +18,7 @@
         <activity android:name="tonydarko.mykhai.ui.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity
             android:screenOrientation="portrait"
             android:name="tonydarko.mykhai.ui.SplashActivity"
@@ -27,6 +28,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name="tonydarko.mykhai.ui.WelcomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
         <activity
             android:screenOrientation="portrait"

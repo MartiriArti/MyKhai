@@ -64,7 +64,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             System.out.println(Arrays.toString(str2));
             nameHead.setText(str2[0]);
         } else {
-            tv1.setText("Для перегляду приватної інформаціі необхідно здійснити вхід");
+            nameHead.setVisibility(View.INVISIBLE);
+            tv1.setText(R.string.main_alert);
         }
         getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     tv1.setVisibility(View.INVISIBLE);
                     replaceFragment(ratingFragment);
                 } else {
-                    Snackbar.make(findViewById(android.R.id.content), "Необхідно увійти!", Snackbar.LENGTH_LONG)
+                    Snackbar.make(findViewById(android.R.id.content), R.string.main_no_enter, Snackbar.LENGTH_LONG)
                             .setActionTextColor(Color.RED)
                             .show();
                 }
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     tv1.setVisibility(View.INVISIBLE);
                     replaceFragment(studentBallsFragment);
                 } else {
-                    Snackbar.make(findViewById(android.R.id.content), "Необхідно увійти!", Snackbar.LENGTH_LONG)
+                    Snackbar.make(findViewById(android.R.id.content), R.string.main_no_enter, Snackbar.LENGTH_LONG)
                             .setActionTextColor(Color.RED)
                             .show();
                 }
