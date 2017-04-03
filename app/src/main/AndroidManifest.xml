@@ -12,6 +12,7 @@
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:name=".ui.MyKhaiApplication"
         android:theme="@style/AppTheme">
 
         <activity android:name="tonydarko.mykhai.ui.MainActivity"

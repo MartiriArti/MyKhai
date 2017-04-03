@@ -158,7 +158,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         SharedPreferences.Editor editor = setting.edit();
                         editor.putString("Login", "");
                         editor.putString("Password", "");
-                        System.out.println("Saved");
                         editor.apply();
                         startActivity(intent);
                         MainActivity.this.finish();

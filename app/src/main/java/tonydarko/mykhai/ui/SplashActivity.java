@@ -27,14 +27,20 @@ import static tonydarko.mykhai.ui.LogginActivity.info;
 
 public class SplashActivity extends Activity {
     Intent mainIntent;
+    SharedPreferences setting;
+    boolean displayNotifications = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String displayNotificationKey = this.getString(R.string.pref_enable_splash);
+        displayNotifications = prefs.getBoolean(displayNotificationKey,
+                Boolean.parseBoolean(this.getString(R.string.pref_enable_splash_default)));
 
-        setContentView(R.layout.activity_splash);
-        mainIntent = new Intent(this, MainActivity.class);
-
+        if (displayNotifications) {
+            setContentView(R.layout.activity_splash);
+            mainIntent = new Intent(this, MainActivity.class);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -45,5 +51,11 @@ public class SplashActivity extends Activity {
 
                 }
             }, 3000);
+        }else {
+            Intent mainIntent = new Intent(SplashActivity.this, LogginActivity.class);
+            overridePendingTransition(R.anim.bottom_in, R.anim.top_out);
+            SplashActivity.this.startActivity(mainIntent);
+            SplashActivity.this.finish();
+        }
         }
     }
