@@ -33,7 +33,6 @@ public class SplashActivity extends Activity {
                 Boolean.parseBoolean(this.getString(R.string.pref_enable_intro_default)));
         if (displayIntro){
             prefManager.setFirstTimeLaunch(true);
-            System.out.println(prefManager.isFirstTimeLaunch());
         }
 
         if (displayNotifications) {
