@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         editor.putString("Login", "");
                         editor.putString("Password", "");
                         editor.apply();
+                        Constant.setInfo("");
                         startActivity(intent);
                         MainActivity.this.finish();
                     }

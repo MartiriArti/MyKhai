@@ -161,11 +161,18 @@ public class StudentBallsFragment extends Fragment {
                 }
                 studentBallsAdapter = new StudentBallsAdapter(data);
                 studentBallsAdapter.notifyDataSetChanged();
-                Snackbar.make(rootLayout, getString(R.string.nav_year) +
-                        newTableFinal[1][6] + getString(R.string.semestr) +
-                        newTableFinal[1][7], Snackbar.LENGTH_INDEFINITE)
-                        .setActionTextColor(Color.RED)
+               final Snackbar snackbar = Snackbar.make(rootLayout, getString(R.string.nav_year) +
+                        newTableFinal[1][6] + " " + getString(R.string.semestr) +
+                        newTableFinal[1][7], Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction("Зрозуміло", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        snackbar.dismiss();
+                    }
+                });
+                snackbar.setActionTextColor(Color.YELLOW)
                         .show();
+
                 recyclerView.setAdapter(studentBallsAdapter);
                 t = 0;
             }else {

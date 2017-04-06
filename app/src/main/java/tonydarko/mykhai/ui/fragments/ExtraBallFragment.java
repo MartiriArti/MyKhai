@@ -198,8 +198,16 @@ public class ExtraBallFragment extends Fragment {
                 extraBallAdapter = new ExtraBallAdapter(data);
                 extraBallAdapter.notifyDataSetChanged();
                 recyclerView.setAdapter(extraBallAdapter);
-                Snackbar.make(getView(), newTableFinal[0][0], Snackbar.LENGTH_INDEFINITE)
-                        .setActionTextColor(Color.RED)
+                final Snackbar snackbar = Snackbar.make(getView(),
+                        newTableFinal[0][0],
+                        Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction("Зрозуміло", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                snackbar.dismiss();
+                            }
+                        });
+                snackbar.setActionTextColor(Color.YELLOW)
                         .show();
                 newTableFinal = null;
                 t = 0;

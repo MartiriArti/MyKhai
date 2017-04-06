@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyKhai</string>
+    <string name="app_name">PilotMobile</string>
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
@@ -51,8 +51,8 @@
     <string name="search_ebt_input">Введіть: групу або фамілію</string>
     <string name="search_ov_input">Введіть: предмет, фамілію або групу</string>
     <string name="search_s_input">Введіть: предмет, фамілію або групу</string>
-    <string name="nav_year">Навчальний рік:</string>
-    <string name="semestr">Семестр:</string>
+    <string name="nav_year">Навчальний рік: </string>
+    <string name="semestr">Семестр: </string>
     <string name="login_no_auth">Невдалося авторизоватися</string>
     <string name="login_q_exit">Вийти?</string>
     <string name="login_exit_quest">Ви дійсно бажаете завершити роботу?</string>
@@ -72,12 +72,12 @@
     <string name="slide_1_desc">Отримайте логін та пароль у куратора вашої групи для роботи з рейтинговою системою</string>
 
     <string name="slide_2_title">Ваш рейтинг</string>
-    <string name="slide_2_desc">Увійшовши до системи ви зможете переглядати ваші оцінки за минулий семестр та ваше місце у рейтингу на стипендію</string>
+    <string name="slide_2_desc">Увійшовши до системи, ви зможете переглядати ваші оцінки за минулий семестр та ваше місце у рейтингу на стипендію</string>
 
     <string name="slide_3_title">Пошук</string>
-    <string name="slide_3_desc">Користуючись пошуком ви зможете бачити додаткові бали та іншу інформацію о студентах ХАІ</string>
+    <string name="slide_3_desc">Користуючись пошуком, ви зможете бачити додаткові бали та іншу інформацію о студентах ХАІ</string>
 
     <string name="slide_4_title">Вибір викладача</string>
-    <string name="slide_4_desc">Обирай вкладачів по предметам на вибір</string>
+    <string name="slide_4_desc">Обирайте вкладачів по предметам на вибір</string>
 
 </resources>

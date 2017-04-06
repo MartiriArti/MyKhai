@@ -88,7 +88,7 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                 setting = getSharedPreferences("LogPass", Context.MODE_PRIVATE);
                 savedLogin = setting.getString("Login", "");
                 savedPass = setting.getString("Password", "");
-                if (savedLogin.length() != 0) {
+                if (savedLogin.length() != 0 & savedPass.length() != 0) {
                     Boolean noOrYes = true;
                     Constant.setNoOrYes(noOrYes);
                     final LogginWithSaved logginWithSaved = new LogginWithSaved();
