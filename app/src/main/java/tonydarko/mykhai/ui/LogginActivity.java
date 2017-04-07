@@ -96,6 +96,7 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                 }
             }
         } else {
+            Constant.setInfo("");
             Snackbar.make(findViewById(android.R.id.content), R.string.login_no_intenet, Snackbar.LENGTH_LONG)
                     .setActionTextColor(Color.RED)
                     .show();
@@ -134,11 +135,11 @@ public class LogginActivity extends Activity implements View.OnClickListener {
                             noOrYes = true;
                             Constant.setNoOrYes(noOrYes);
                             if (displayNotifications) {
-                                setting = getSharedPreferences("LogPass", Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = setting.edit();
-                                editor.putString("Login", myLogin);
-                                editor.putString("Password", myPassword);
-                                editor.apply();
+                                    setting = getSharedPreferences("LogPass", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = setting.edit();
+                                    editor.putString("Login", myLogin);
+                                    editor.putString("Password", myPassword);
+                                    editor.apply();
                             }
                             LogginActivity.this.startActivity(mainIntent);
                             startActivity(mainIntent);
@@ -406,4 +407,5 @@ public class LogginActivity extends Activity implements View.OnClickListener {
 
         alertDialog.show();
     }
+
 }

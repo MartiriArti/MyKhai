@@ -14,7 +14,6 @@
         android:supportsRtl="true"
         android:name=".ui.MyKhaiApplication"
         android:theme="@style/AppTheme">
-
         <activity android:name="tonydarko.mykhai.ui.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
@@ -40,6 +39,7 @@
             android:label="@string/title_activity_loggin"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
     </application>
 
 </manifest>

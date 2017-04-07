@@ -13,6 +13,16 @@ public class Constant {
     private static String info = "";
     private static Boolean noOrYes;
 
+    public static Boolean getNotAuthWithoutInternet() {
+        return notAuthWithoutInternet;
+    }
+
+    public static void setNotAuthWithoutInternet(Boolean notAuthWithoutInternet) {
+        Constant.notAuthWithoutInternet = notAuthWithoutInternet;
+    }
+
+    private static Boolean notAuthWithoutInternet;
+
     public static Boolean getNoOrYes() {
         return noOrYes;
     }
