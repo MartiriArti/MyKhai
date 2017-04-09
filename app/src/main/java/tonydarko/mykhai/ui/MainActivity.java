@@ -54,11 +54,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setActionBar();
         setDrawerLayout();
         tv1 = (TextView) findViewById(R.id.tv1);
+        tv2 = (TextView) findViewById(R.id.tv2);
         View headerView = navigationView.getHeaderView(0);
         nameHead = (TextView) headerView.findViewById(R.id.header_username);
 
         if (noOrYes) {
             tv1.setText(Constant.getInfo());
+            tv2.setText(Constant.getDanger());
             String[] str = Constant.getInfo().split(",");
             String[] str2 = str[1].split("!");
             System.out.println(Arrays.toString(str2));
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (noOrYes) {
                     RatingFragment ratingFragment = new RatingFragment();
                     tv1.setVisibility(View.INVISIBLE);
+                    tv2.setVisibility(View.INVISIBLE);
                     replaceFragment(ratingFragment);
                 } else {
                     Snackbar.make(findViewById(android.R.id.content), R.string.main_no_enter, Snackbar.LENGTH_LONG)
@@ -112,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (noOrYes) {
                     StudentBallsFragment studentBallsFragment = new StudentBallsFragment();
                     tv1.setVisibility(View.INVISIBLE);
+                    tv2.setVisibility(View.INVISIBLE);
                     replaceFragment(studentBallsFragment);
                 } else {
                     Snackbar.make(findViewById(android.R.id.content), R.string.main_no_enter, Snackbar.LENGTH_LONG)
@@ -121,26 +125,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.drawer_extra_ball:
                 tv1.setVisibility(View.INVISIBLE);
+                tv2.setVisibility(View.INVISIBLE);
                 ExtraBallFragment extraBallFragment = new ExtraBallFragment();
                 replaceFragment(extraBallFragment);
                 break;
             case R.id.drawer_vibir:
                 tv1.setVisibility(View.INVISIBLE);
+                tv2.setVisibility(View.INVISIBLE);
                 DisciplineFragment disciplineFragment = new DisciplineFragment();
                 replaceFragment(disciplineFragment);
                 break;
             case R.id.drawer_online_vote:
                 tv1.setVisibility(View.INVISIBLE);
+                tv2.setVisibility(View.INVISIBLE);
                 OnlineVoteFragment onlineVoteFragment = new OnlineVoteFragment();
                 replaceFragment(onlineVoteFragment);
                 break;
             case R.id.drawer_scheduler:
                 tv1.setVisibility(View.INVISIBLE);
+                tv2.setVisibility(View.INVISIBLE);
                 SchedullerFragment schedullerFragment = new SchedullerFragment();
                 replaceFragment(schedullerFragment);
                 break;
             case R.id.drawer_settings:
                 tv1.setVisibility(View.INVISIBLE);
+                tv2.setVisibility(View.INVISIBLE);
                 SettingsFragment settingsFragment = new SettingsFragment();
                 replaceFragment(settingsFragment);
                 break;

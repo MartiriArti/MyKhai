@@ -7,10 +7,12 @@ public class Constant {
 
     private static String token;
     private static Map<String, String> common;
+    private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0";
     private final static String url = "http://my.khai.edu/my/login";
     private static String MyLogin = "";
     private static String MyPassword = "";
     private static String info = "";
+    private static String danger = "";
     private static Boolean noOrYes;
 
     public static Boolean getNotAuthWithoutInternet() {
@@ -46,10 +48,6 @@ public class Constant {
     public static void setDanger(String danger) {
         Constant.danger = danger;
     }
-
-    private static String danger = "";
-    private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0";
-
 
     public static Map<String, String> getCommon() {
         return common;

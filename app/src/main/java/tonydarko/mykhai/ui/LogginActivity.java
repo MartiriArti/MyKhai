@@ -211,13 +211,20 @@ public class LogginActivity extends Activity implements View.OnClickListener {
             }
             assert doc3 != null;
             for (Element clas : doc3.getElementsByClass("lead")) {
-                System.out.println(clas);
                 if (clas.text().startsWith("Шановний (а),")) {
                     info = clas.text();
-                    System.out.println(info);
                     Constant.setInfo(info);
                 }
             }
+            String danger;
+            for (Element clas : doc3.getElementsByTag("div")) {
+                if (clas.getElementsByClass("alert").size() != 0) {
+                    danger = clas.getElementsByClass("alert").text();
+                    Constant.setDanger(danger);
+                    break;
+                }
+            }
+
             return info;
         }
     }
@@ -281,11 +288,17 @@ public class LogginActivity extends Activity implements View.OnClickListener {
 
                     assert doc3 != null;
                     for (Element clas : doc3.getElementsByClass("lead")) {
-                        System.out.println(clas);
                         if (clas.text().startsWith("Шановний (а),")) {
                             String info = clas.text();
-                            System.out.println(info);
                             Constant.setInfo(info);
+                        }
+                    }
+                    String danger;
+                    for (Element clas : doc3.getElementsByTag("div")) {
+                        if (clas.getElementsByClass("alert").size() != 0) {
+                            danger = clas.getElementsByClass("alert").text();
+                            Constant.setDanger(danger);
+                            break;
                         }
                     }
                 }

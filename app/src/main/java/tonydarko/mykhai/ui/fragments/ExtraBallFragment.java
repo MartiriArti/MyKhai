@@ -44,6 +44,7 @@ public class ExtraBallFragment extends Fragment {
     ProgressDialog progressDialog;
     private RecyclerView recyclerView;
     Document doc;
+    String info = null;
     CoordinatorLayout rootLayout;
     String url = "http://my.khai.edu/my/scolarship_ball";
     int t = 0;
@@ -65,8 +66,8 @@ public class ExtraBallFragment extends Fragment {
         } else {
             extraBallAdapter = new ExtraBallAdapter(data);
             extraBallAdapter.notifyDataSetChanged();
-
             recyclerView.setAdapter(extraBallAdapter);
+            infoDialog();
         }
 
         initRecycleView(rootView);
@@ -79,9 +80,7 @@ public class ExtraBallFragment extends Fragment {
         context = getActivity();
         extraBallAdapter = new ExtraBallAdapter(data);
         extraBallAdapter.notifyDataSetChanged();
-
         recyclerView.setAdapter(extraBallAdapter);
-
     }
 
     private void initRecycleView(View view) {
@@ -175,6 +174,7 @@ public class ExtraBallFragment extends Fragment {
                         t++;
                     }
                 }
+                info = newTableFinal[0][0];
                 for (int i = 2; i < newTableFinal.length; i++) {
                     newTableFinal[i][2] += " " + newTableFinal[i][3] + " " + newTableFinal[i][4];
                     data.add(new ExtraBallItem(
@@ -198,17 +198,8 @@ public class ExtraBallFragment extends Fragment {
                 extraBallAdapter = new ExtraBallAdapter(data);
                 extraBallAdapter.notifyDataSetChanged();
                 recyclerView.setAdapter(extraBallAdapter);
-                final Snackbar snackbar = Snackbar.make(getView(),
-                        newTableFinal[0][0],
-                        Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction("Зрозуміло", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                snackbar.dismiss();
-                            }
-                        });
-                snackbar.setActionTextColor(Color.YELLOW)
-                        .show();
+               infoDialog();
+
                 newTableFinal = null;
                 t = 0;
             }else {
@@ -233,4 +224,19 @@ public class ExtraBallFragment extends Fragment {
             }
         }
     }
+
+    public void infoDialog(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+        alertDialog.setTitle("Увага!");
+
+        alertDialog.setMessage(info);
+
+        alertDialog.setPositiveButton("Зрозуміло", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int which) {
+                dialog.cancel();
+            }
+        });
+        alertDialog.show();
+    }
+
 }
