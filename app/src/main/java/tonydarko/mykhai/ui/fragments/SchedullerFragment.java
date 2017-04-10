@@ -157,7 +157,6 @@ public class SchedullerFragment extends Fragment {
                                 }
                             }
                         }
-                        System.out.println(Arrays.deepToString(newTableFinal));
                         t++;
                     }
                     for (int i = 1; i < newTableFinal.length; i++) {

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/drawer_header_layout_height"
-    android:background="@mipmap/pattern3"
+    android:background="@drawable/patternfornavdraw"
     android:orientation="vertical"
     android:paddingTop="@dimen/drawer_status_bar_height"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
